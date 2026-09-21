@@ -1,0 +1,20 @@
+# Dependencies
+node_modules/
+
+# Expo
+.expo/
+dist/
+web-build/
+
+# Environment
+.env
+.env.*
+!.env.example
+
+# Local Claude configuration
+.claude/
+CLAUDE.md
+
+# System files
+.DS_Store
+*.log
