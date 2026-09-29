@@ -47,21 +47,18 @@ git pull origin main
 git checkout -b feature/your-feature-name
 ```
 
+Before pushing your code, you can run the precommit checks locally:
+
+```bash
+npm run precommit
+```
+
+This runs the local lint, TypeScript and unit test checks, so you can make sure everything passes before pushing your code.
+
 When your implementation is ready, push your branch to GitHub and create a pull request.
 
 All changes must be reviewed before merging into main.
 
-## Project requirements
-
-The application must allow users to:
-
-* View available cars.
-* View the details of individual cars.
-* Book a car.
-* Retrieve data through an API.
-* Persist retrieved data.
-
-Initially, the application uses dummy data. Backend integration will be added later in the project.
 
 ## AI usage
 
