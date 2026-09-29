@@ -1,0 +1,4 @@
+appId: com.thebarlach.carrentalapp
+---
+- launchApp
+- assertVisible: "Hello World!"
