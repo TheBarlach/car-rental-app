@@ -25,7 +25,12 @@ export function Button({
       accessibilityLabel={label}
       accessibilityRole="button"
       onPress={onPress}
-      style={[styles.container, styles[width], variantStyle.container]}
+      style={({ pressed }) => [
+        styles.container,
+        styles[width],
+        variantStyle.container,
+        pressed && variantStyle.pressed,
+      ]}
     >
       <Text style={[styles.label, variantStyle.label]}>{label}</Text>
     </Pressable>
