@@ -12,7 +12,7 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack';
 
 import BottomNavigation from '../../../components/BottomNavigation';
 import { RootStackParamList } from '../../../navigation/RootNavigator';
-import { Car, mockCars } from '../data/mockCars';
+import { Car, mockCars } from '../../../data/mockCars';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'AdminPage'>;
 

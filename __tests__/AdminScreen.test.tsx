@@ -6,7 +6,7 @@ import {
 } from '@testing-library/react-native';
 
 import AdminScreen from '../src/features/admin/screens/AdminScreen';
-import { mockCars } from '../src/features/admin/data/mockCars';
+import { mockCars } from '../src/data/mockCars';
 
 const mockNavigate = jest.fn();
 
