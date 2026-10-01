@@ -1,87 +1,153 @@
 import React from 'react';
-import { fireEvent, render } from '@testing-library/react-native';
+import {
+  fireEvent,
+  render,
+  screen,
+} from '@testing-library/react-native';
 
 import SettingsScreen from '../src/features/settings/screens/SettingsScreen';
 
 describe('SettingsScreen', () => {
   const mockNavigate = jest.fn();
-  const mockLogout = jest.fn();
+
+  const navigation = {
+    navigate: mockNavigate,
+  } as any;
+
+  const route = {
+    key: 'Settings-test',
+    name: 'Settings',
+  } as any;
 
   beforeEach(() => {
     jest.clearAllMocks();
   });
 
-  const renderScreen = () => {
-    return render(
+  const renderScreen = async () => {
+    await render(
       <SettingsScreen
-        user={{
-          name: 'Maria Mikkelsen',
-          email: 'maria.mikkelsen@gmail.com',
-        }}
-        onNavigate={mockNavigate}
-        onLogout={mockLogout}
+        navigation={navigation}
+        route={route}
       />,
     );
   };
 
-  it('renders the settings page title', () => {
-    const { getByText } = renderScreen();
+  it('renders the settings page title', async () => {
+    await renderScreen();
 
-    expect(getByText('Settings')).toBeTruthy();
+    expect(screen.getByText('Settings')).toBeTruthy();
   });
 
-  it('renders the user information', () => {
-    const { getByText } = renderScreen();
+  it('renders the user information', async () => {
+    await renderScreen();
 
-    expect(getByText('Maria Mikkelsen')).toBeTruthy();
-    expect(getByText('maria.mikkelsen@gmail.com')).toBeTruthy();
+    expect(screen.getByText('Maria Mikkelsen')).toBeTruthy();
+    expect(
+      screen.getByText('maria.mikkelsen@gmail.com'),
+    ).toBeTruthy();
   });
 
-  it('renders the main settings options', () => {
-    const { getByText } = renderScreen();
+  it('renders the main settings options', async () => {
+    await renderScreen();
 
-    expect(getByText('Personal Information')).toBeTruthy();
-    expect(getByText("Driver's License")).toBeTruthy();
-    expect(getByText('Payment Methods')).toBeTruthy();
-    expect(getByText('My Booking')).toBeTruthy();
-    expect(getByText('Notifications')).toBeTruthy();
-    expect(getByText('Help & Support')).toBeTruthy();
-    expect(getByText('About Drive On The Go')).toBeTruthy();
+    expect(screen.getByText('Admin Page')).toBeTruthy();
+    expect(screen.getByText('Personal Information')).toBeTruthy();
+    expect(screen.getByText("Driver's License")).toBeTruthy();
+    expect(screen.getByText('Payment Methods')).toBeTruthy();
+    expect(screen.getByText('My Booking')).toBeTruthy();
+    expect(screen.getByText('Notifications')).toBeTruthy();
+    expect(screen.getByText('Help & Support')).toBeTruthy();
+    expect(screen.getByText('About Drive On The Go')).toBeTruthy();
   });
 
-  it('navigates to personal information when pressed', () => {
-    const { getByText } = renderScreen();
+  it('navigates to admin page when pressed', async () => {
+    await renderScreen();
 
-    fireEvent.press(getByText('Personal Information'));
+    await fireEvent.press(screen.getByText('Admin Page'));
 
-    expect(mockNavigate).toHaveBeenCalledWith('personal-information');
+    expect(mockNavigate).toHaveBeenCalledWith('AdminPage');
   });
 
-  it('navigates to bookings when My Booking is pressed', () => {
-    const { getByText } = renderScreen();
+  it('navigates to personal information when pressed', async () => {
+    await renderScreen();
 
-    fireEvent.press(getByText('My Booking'));
+    await fireEvent.press(screen.getByText('Personal Information'));
 
-    expect(mockNavigate).toHaveBeenCalledWith('bookings');
+    expect(mockNavigate).toHaveBeenCalledWith('PersonalInformation');
   });
 
-  it('can toggle notifications', () => {
-    const { getByTestId } = renderScreen();
+  it('navigates to driver license when pressed', async () => {
+    await renderScreen();
 
-    const notificationSwitch = getByTestId('notifications-switch');
+    await fireEvent.press(screen.getByText("Driver's License"));
 
-    expect(notificationSwitch.props.value).toBe(false);
-
-    fireEvent(notificationSwitch, 'valueChange', true);
-
-    expect(getByTestId('notifications-switch').props.value).toBe(true);
+    expect(mockNavigate).toHaveBeenCalledWith('DriversLicense');
   });
 
-  it('logs the user out when Logout is pressed', () => {
-    const { getByText } = renderScreen();
+  it('navigates to payment methods when pressed', async () => {
+    await renderScreen();
 
-    fireEvent.press(getByText('Logout'));
+    await fireEvent.press(screen.getByText('Payment Methods'));
 
-    expect(mockLogout).toHaveBeenCalledTimes(1);
+    expect(mockNavigate).toHaveBeenCalledWith('PaymentMethods');
+  });
+
+  it('navigates to bookings when My Booking is pressed', async () => {
+    await renderScreen();
+
+    await fireEvent.press(screen.getByText('My Booking'));
+
+    expect(mockNavigate).toHaveBeenCalledWith('MyBooking');
+  });
+
+  it('renders the notification switch', async () => {
+    await renderScreen();
+
+    expect(screen.getByRole('switch')).toBeTruthy();
+  });
+
+  it('navigates to help and support when pressed', async () => {
+    await renderScreen();
+
+    await fireEvent.press(screen.getByText('Help & Support'));
+
+    expect(mockNavigate).toHaveBeenCalledWith('HelpSupport');
+  });
+
+  it('navigates to about when pressed', async () => {
+    await renderScreen();
+
+    await fireEvent.press(screen.getByText('About Drive On The Go'));
+
+    expect(mockNavigate).toHaveBeenCalledWith('About');
+  });
+
+  it('navigates to login when logout is pressed', async () => {
+    await renderScreen();
+
+    await fireEvent.press(screen.getByText('Log Out'));
+
+    expect(mockNavigate).toHaveBeenCalledWith('Login');
+  });
+
+  it('renders the bottom navigation', async () => {
+    await renderScreen();
+
+    expect(screen.getByText('Search')).toBeTruthy();
+    expect(screen.getByText('Map')).toBeTruthy();
+    expect(screen.getByText('Bookings')).toBeTruthy();
+  });
+
+  it('uses the bottom navigation correctly', async () => {
+    await renderScreen();
+
+    await fireEvent.press(screen.getByText('Search'));
+    expect(mockNavigate).toHaveBeenCalledWith('Search');
+
+    await fireEvent.press(screen.getByText('Map'));
+    expect(mockNavigate).toHaveBeenCalledWith('Map');
+
+    await fireEvent.press(screen.getByText('Bookings'));
+    expect(mockNavigate).toHaveBeenCalledWith('Bookings');
   });
 });
