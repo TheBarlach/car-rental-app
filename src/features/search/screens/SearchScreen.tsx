@@ -1,5 +1,6 @@
 import { useReducer } from 'react';
 import { ScrollView, Text, View } from 'react-native';
+import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 
 import { Avatar, Button, Logo, ScreenHeader } from '../../../components';
 import {
@@ -10,6 +11,7 @@ import {
   mockInsuranceOptions,
 } from '../../../mocks/filters';
 import { BottomNavigation } from '../../../navigation/BottomNavigation';
+import type { RootStackParamList } from '../../../navigation/RootNavigator';
 import { DateTimeField } from '../components/DateTimeField';
 import { FilterPicker } from '../components/FilterPicker';
 import { PriceRangeField } from '../components/PriceRangeField';
@@ -17,8 +19,13 @@ import { searchFormReducer } from '../searchFormReducer';
 import { initialSearchForm } from '../types';
 import { styles } from './SearchScreen.styles';
 
-export function SearchScreen() {
+export type SearchScreenProps = Partial<
+  NativeStackScreenProps<RootStackParamList, 'Search'>
+>;
+
+export function SearchScreen({ navigation }: SearchScreenProps) {
   const [state, dispatch] = useReducer(searchFormReducer, initialSearchForm);
+  const handleTabPress = () => navigation?.navigate('Search');
 
   return (
     <View style={styles.screen}>
@@ -148,7 +155,7 @@ export function SearchScreen() {
 
         <Button label="Search" onPress={() => {}} width="full" />
       </ScrollView>
-      <BottomNavigation activeTab="search" />
+      <BottomNavigation activeTab="search" onTabPress={handleTabPress} />
     </View>
   );
 }

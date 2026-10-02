@@ -25,9 +25,19 @@ Run lint and typecheck before declaring any task done.
 
 ## Navigation & Routing
 
-- Use **Expo Router** for all navigation. Routes live in `src/app/` — every file there is a screen, `_layout.tsx` files define navigators. Keep non-route code (components, hooks, utils) outside `src/app/`.
-- Import `Link`, `router`, and `useLocalSearchParams` from `expo-router`.
-- Docs: https://docs.expo.dev/router/introduction.md
+- Use **React Navigation** (`@react-navigation/native` + `@react-navigation/native-stack`). `src/navigation/RootNavigator.tsx` holds the single navigator and the `RootStackParamList` route type. Screens live in `src/features/<feature>/screens/`.
+- Declare a route in `RootStackParamList` **only if a `<Stack.Screen>` registers it.** An unregistered route throws at runtime when navigated to. Keep the two lists identical.
+- Type screen props with `NativeStackScreenProps<RootStackParamList, 'Route'>`. The prop may be wrapped in `Partial<>` so a screen can be unit-tested without a `NavigationContainer`.
+- Every screen renders our own `BottomNavigation`; navigate with `navigation.navigate(...)` from the screen, not a nested navigator.
+- The team branches (`feat/admin-page`, `feat/settings-page`, `feat/car-setting-page`, `feature/auth-screens`) all use this pattern. Match it — deviating here creates merge conflicts.
+- `react-native-screens` is native code, so the app needs a development build (`npx expo run:android`) rather than Expo Go.
+
+## Project structure
+
+- `src/components/` — shared, reusable components with a barrel `index.ts`.
+- `src/features/<feature>/` — feature code: `screens/`, `components/`, plus feature-local `types.ts` and a reducer where state logic warrants it.
+- Every component keeps its styles in a co-located `<Name>.styles.ts`. Never inline `StyleSheet` inside a component.
+- Design tokens live in `src/theme/` and must be referenced, never hardcoded.
 
 ## Building with EAS
 
