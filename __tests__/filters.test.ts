@@ -32,16 +32,16 @@ describe('mockdata til søgefilters', () => {
     });
   });
 
-  it('gear type starter med Manuel, så default viser designets valg', () => {
-    expect(mockGearTypes[0].label).toBe('Manuel');
+  it('gear type starter med Manual, så default viser designets valg', () => {
+    expect(mockGearTypes[0].label).toBe('Manual');
   });
 
   it('car type starter med Station Car, så default viser designets valg', () => {
     expect(mockCarTypes[0].label).toBe('Station Car');
   });
 
-  it('fuel starter med Gasoline, så default viser designets valg', () => {
-    expect(mockFuelTypes[0].label).toBe('Gasoline');
+  it('fuel starter med Gas, så default viser designets valg', () => {
+    expect(mockFuelTypes[0].label).toBe('Gas');
   });
 
   it('insurance starter med Full Insurance, så default viser designets valg', () => {

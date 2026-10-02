@@ -1,7 +1,7 @@
 import type { PickerItem } from '../features/search/types';
 
 export const mockGearTypes: PickerItem[] = [
-  { id: 'manual', label: 'Manuel' },
+  { id: 'manual', label: 'Manual' },
   { id: 'automatic', label: 'Automatic' },
 ];
 
@@ -13,8 +13,8 @@ export const mockCarTypes: PickerItem[] = [
 ];
 
 export const mockFuelTypes: PickerItem[] = [
-  { id: 'gasoline', label: 'Gasoline' },
-  { id: 'gasoline-mild-hybrid', label: 'Gasoline/Mild Hybrid' },
+  { id: 'gas', label: 'Gas' },
+  { id: 'gas-mild-hybrid', label: 'Gas/Mild Hybrid' },
   { id: 'diesel', label: 'Diesel' },
   { id: 'hybrid', label: 'Hybrid' },
   { id: 'electric', label: 'Electric' },

@@ -7,15 +7,15 @@ import type {
   SearchFormState,
 } from '../src/features/search/types';
 
-const manuel: PickerItem = { id: 'manual', label: 'Manuel' };
+const manual: PickerItem = { id: 'manual', label: 'Manual' };
 const automatisk: PickerItem = { id: 'automatic', label: 'Automatic' };
 const stationCar: PickerItem = { id: 'station', label: 'Station Car' };
 const suv: PickerItem = { id: 'suv', label: 'SUV' };
-const benzin: PickerItem = { id: 'petrol', label: 'Benzin' };
+const gas: PickerItem = { id: 'gas', label: 'Gas' };
 const diesel: PickerItem = { id: 'diesel', label: 'Diesel' };
 const fuld: PickerItem = { id: 'full', label: 'Full Insurance' };
-const ingen: PickerItem = { id: 'none', label: 'No Insurance' };
-const toPersoner: PickerItem = { id: '2', label: '2' };
+const none: PickerItem = { id: 'none', label: 'No cover' };
+const twoPeople: PickerItem = { id: '2', label: '2 persons' };
 
 function apply(
   state: SearchFormState,
@@ -115,11 +115,11 @@ describe('searchFormReducer', () => {
 
   describe('filtre', () => {
     it.each([
-      ['setCapacity', 'capacity', toPersoner],
+      ['setCapacity', 'capacity', twoPeople],
       ['setGearType', 'gearType', automatisk],
       ['setCarType', 'carType', suv],
       ['setFuelType', 'fuelType', diesel],
-      ['setInsurance', 'insurance', ingen],
+      ['setInsurance', 'insurance', none],
     ] as const)('sætter %s på sit eget felt', (type, felt, value) => {
       const next = apply(initialSearchForm, { type, value });
 
@@ -141,7 +141,7 @@ describe('searchFormReducer', () => {
     it('overskriver et filter med en ny værdi', () => {
       const next = apply(initialSearchForm, {
         type: 'setGearType',
-        value: manuel,
+        value: manual,
       });
       const skiftet = apply(next, {
         type: 'setGearType',
