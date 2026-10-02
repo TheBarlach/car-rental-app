@@ -7,6 +7,7 @@ describe('mockdata til søgefilters', () => {
     ['car types', mockCarTypes],
     ['fuel types', mockFuelTypes],
     ['insurance options', mockInsuranceOptions],
+    ['capacities', mockCapacities],
   ] as const;
 
   it.each(lister)('%s er ikke tomme', (_navn, liste) => {
@@ -39,22 +40,27 @@ describe('mockdata til søgefilters', () => {
     expect(mockCarTypes[0].label).toBe('Station Car');
   });
 
-  it('fuel starter med Benzin, så default viser designets valg', () => {
-    expect(mockFuelTypes[0].label).toBe('Benzin');
+  it('fuel starter med Gasoline, så default viser designets valg', () => {
+    expect(mockFuelTypes[0].label).toBe('Gasoline');
   });
 
   it('insurance starter med Full Insurance, så default viser designets valg', () => {
     expect(mockInsuranceOptions[0].label).toBe('Full Insurance');
   });
 
-  it('kapaciteter er stigende', () => {
-    const sorteret = [...mockCapacities].sort((a, b) => a - b);
-
-    expect(mockCapacities).toEqual(sorteret);
+  it('kapaciteterne er 2, 4, 5 og 5+ som designet viser', () => {
+    expect(mockCapacities.map((option) => option.label)).toEqual([
+      '2 persons',
+      '4 persons',
+      '5 persons',
+      '5+ persons',
+    ]);
   });
 
-  it('har en kapacitet på 2, som designet viser', () => {
-    expect(mockCapacities).toContain(2);
+  it('kapaciteterne stiger i rækkefølge', () => {
+    const antal = mockCapacities.map((option) => Number.parseInt(option.id, 10));
+
+    expect(antal).toEqual([...antal].sort((a, b) => a - b));
   });
 
   it('prisintervallet er gyldigt', () => {

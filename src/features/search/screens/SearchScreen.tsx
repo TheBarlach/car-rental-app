@@ -15,13 +15,7 @@ import { FilterPicker } from '../components/FilterPicker';
 import { PriceRangeField } from '../components/PriceRangeField';
 import { searchFormReducer } from '../searchFormReducer';
 import { initialSearchForm } from '../types';
-import type { PickerItem } from '../types';
 import { styles } from './SearchScreen.styles';
-
-const capacityItems: PickerItem[] = mockCapacities.map((value) => ({
-  id: String(value),
-  label: `${value} ${value === 1 ? 'Person' : 'Persons'}`,
-}));
 
 export function SearchScreen() {
   const [state, dispatch] = useReducer(searchFormReducer, initialSearchForm);
@@ -91,9 +85,10 @@ export function SearchScreen() {
         <View style={styles.formGroup}>
           <FilterPicker
             label="Capacity"
-            items={capacityItems}
+            items={mockCapacities}
             value={state.capacity}
             onValueChange={(value) => dispatch({ type: 'setCapacity', value })}
+            showPlaceholder={false}
           />
         </View>
 

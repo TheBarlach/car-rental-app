@@ -242,23 +242,20 @@ describe('SearchScreen', () => {
     );
   });
 
-  it('skriver antal personer som "N Persons"', async () => {
+  it('skriver antal personer som designets fire valg uden select', async () => {
     await render(<SearchScreen />);
 
     const labels = screen
       .getByLabelText('Capacity')
       .props.children.flat()
+      .filter((item: unknown) => item !== null)
       .map((item: { props: { label: string } }) => item.props.label);
 
     expect(labels).toEqual([
-      'Select...',
-      '1 Person',
-      '2 Persons',
-      '3 Persons',
-      '4 Persons',
-      '5 Persons',
-      '7 Persons',
-      '9 Persons',
+      '2 persons',
+      '4 persons',
+      '5 persons',
+      '5+ persons',
     ]);
   });
 

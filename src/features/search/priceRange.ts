@@ -2,7 +2,7 @@ import { colors } from '../../theme';
 
 export const PRICE_RANGE = {
   min: 0,
-  max: 40000,
+  max: 10000,
   initialMin: 500,
   initialMax: 9000,
   step: 100,

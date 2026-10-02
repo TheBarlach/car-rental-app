@@ -13,7 +13,8 @@ export const mockCarTypes: PickerItem[] = [
 ];
 
 export const mockFuelTypes: PickerItem[] = [
-  { id: 'petrol', label: 'Benzin' },
+  { id: 'gasoline', label: 'Gasoline' },
+  { id: 'gasoline-mild-hybrid', label: 'Gasoline/Mild Hybrid' },
   { id: 'diesel', label: 'Diesel' },
   { id: 'hybrid', label: 'Hybrid' },
   { id: 'electric', label: 'Electric' },
@@ -21,8 +22,13 @@ export const mockFuelTypes: PickerItem[] = [
 
 export const mockInsuranceOptions: PickerItem[] = [
   { id: 'full', label: 'Full Insurance' },
-  { id: 'basic', label: 'Basic Insurance' },
-  { id: 'none', label: 'No Insurance' },
+  { id: 'liability', label: 'Liability Insurance' },
+  { id: 'none', label: 'No cover' },
 ];
 
-export const mockCapacities = [1, 2, 3, 4, 5, 7, 9];
+export const mockCapacities: PickerItem[] = [
+  { id: '2', label: '2 persons' },
+  { id: '4', label: '4 persons' },
+  { id: '5', label: '5 persons' },
+  { id: '5plus', label: '5+ persons' },
+];

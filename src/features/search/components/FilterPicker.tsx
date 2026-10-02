@@ -9,6 +9,7 @@ export interface FilterPickerProps {
   items: PickerItem[];
   value: PickerItem | null;
   onValueChange: (value: PickerItem | null) => void;
+  showPlaceholder?: boolean;
 }
 
 export function FilterPicker({
@@ -16,14 +17,18 @@ export function FilterPicker({
   items,
   value,
   onValueChange,
+  showPlaceholder = true,
 }: FilterPickerProps) {
+  const selectedValue =
+    value?.id ?? (showPlaceholder ? '' : (items[0]?.id ?? ''));
+
   return (
     <View style={styles.container}>
       <Text style={styles.label}>{label}</Text>
       <View style={styles.box}>
         <Picker
           accessibilityLabel={label}
-          selectedValue={value?.id ?? ''}
+          selectedValue={selectedValue}
           style={styles.picker}
           onValueChange={(itemValue) =>
             onValueChange(
@@ -31,7 +36,7 @@ export function FilterPicker({
             )
           }
         >
-          <Picker.Item label="Select..." value="" />
+          {showPlaceholder ? <Picker.Item label="Select..." value="" /> : null}
           {items.map((item) => (
             <Picker.Item key={item.id} label={item.label} value={item.id} />
           ))}
