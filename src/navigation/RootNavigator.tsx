@@ -33,7 +33,7 @@ export default function RootNavigator() {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName="Settings"
+        initialRouteName="Login"
         screenOptions={{ headerShown: false }}
       >
         <Stack.Screen name="Login" component={LoginScreen} />
