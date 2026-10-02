@@ -24,7 +24,7 @@ export function SearchScreen() {
     <View style={styles.screen}>
       <View style={styles.headerArea}>
         <ScreenHeader
-          left={<Logo variant="wordmark" />}
+          left={<Logo variant="mark" />}
           right={
             <Avatar
               initials="AB"
@@ -88,7 +88,6 @@ export function SearchScreen() {
             items={mockCapacities}
             value={state.capacity}
             onValueChange={(value) => dispatch({ type: 'setCapacity', value })}
-            showPlaceholder={false}
           />
         </View>
 

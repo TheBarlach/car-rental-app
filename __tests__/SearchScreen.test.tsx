@@ -2,9 +2,24 @@ import { act, render, screen, userEvent } from '@testing-library/react-native';
 import { StyleSheet } from 'react-native';
 
 import { hitTarget } from '../src/theme';
+import {
+  mockCapacities,
+  mockCarTypes,
+  mockFuelTypes,
+  mockGearTypes,
+  mockInsuranceOptions,
+} from '../src/mocks/filters';
 import { PRICE_RANGE, PRICE_SLIDER } from '../src/features/search/priceRange';
 import { SearchScreen } from '../src/features/search/screens/SearchScreen';
 import { styles } from '../src/features/search/screens/SearchScreen.styles';
+
+const PICKS = [
+  ['Capacity', mockCapacities],
+  ['Gear Type', mockGearTypes],
+  ['Car Type', mockCarTypes],
+  ['Fuel', mockFuelTypes],
+  ['Insurance', mockInsuranceOptions],
+] as const;
 
 describe('SearchScreen', () => {
   it('viser titlen og undertitlen', async () => {
@@ -257,6 +272,24 @@ describe('SearchScreen', () => {
       '5 persons',
       '5+ persons',
     ]);
+  });
+
+  it.each(PICKS)('%s har ingen select-option', async (label) => {
+    await render(<SearchScreen />);
+
+    const labels = screen
+      .getByLabelText(label)
+      .props.children.flat()
+      .filter((item: unknown) => item !== null)
+      .map((item: { props: { label: string } }) => item.props.label);
+
+    expect(labels).not.toContain('Select...');
+  });
+
+  it.each(PICKS)('%s viser sit første valg som default', async (label, items) => {
+    await render(<SearchScreen />);
+
+    expect(screen.getByLabelText(label).props.selectedValue).toBe(items[0].id);
   });
 
   it('giver hvert af de fire felter sit ikon', async () => {
