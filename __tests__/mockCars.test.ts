@@ -7,8 +7,8 @@ const CAPACITIES = ['2 persons', '4 persons', '5 persons', '5+ persons'];
 const GEAR_TYPES = ['Manual', 'Automatic'];
 const CAR_TYPES = ['Station Car', 'SUV', 'Van', 'Luxury Car'];
 const FUEL_TYPES = [
-  'Gasoline',
-  'Gasoline/Mild Hybrid',
+  'Gas',
+  'Gas/Mild Hybrid',
   'Diesel',
   'Hybrid',
   'Electric',

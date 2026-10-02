@@ -30,7 +30,7 @@ export const mockCars: Car[] = [
     carType: 'Station Car',
     gearType: 'Manual',
     capacity: '5 persons',
-    fuelType: 'Gasoline',
+    fuelType: 'Gas',
     insurance: 'Full Insurance',
     description:
       'A stylish and comfortable hatchback, perfect for both city drives and long trips.',
@@ -120,7 +120,7 @@ export const mockCars: Car[] = [
     carType: 'Van',
     gearType: 'Manual',
     capacity: '5+ persons',
-    fuelType: 'Gasoline',
+    fuelType: 'Gas',
     insurance: 'Liability Insurance',
     description:
       'Versatile van with generous cargo space for moving or group travel.',
@@ -135,7 +135,7 @@ export const mockCars: Car[] = [
     carType: 'SUV',
     gearType: 'Automatic',
     capacity: '5 persons',
-    fuelType: 'Gasoline/Mild Hybrid',
+    fuelType: 'Gas/Mild Hybrid',
     insurance: 'Full Insurance',
     description:
       'All-wheel drive SUV with a mild-hybrid engine for confident wet-weather driving.',
@@ -180,7 +180,7 @@ export const mockCars: Car[] = [
     carType: 'SUV',
     gearType: 'Automatic',
     capacity: '5 persons',
-    fuelType: 'Gasoline/Mild Hybrid',
+    fuelType: 'Gas/Mild Hybrid',
     insurance: 'Liability Insurance',
     description:
       'SUV with a self-charging mild-hybrid system for quiet urban driving.',
@@ -210,7 +210,7 @@ export const mockCars: Car[] = [
     carType: 'Station Car',
     gearType: 'Manual',
     capacity: '4 persons',
-    fuelType: 'Gasoline',
+    fuelType: 'Gas',
     insurance: 'No cover',
     description:
       'Small, agile hatchback that is cheap to run and easy to manoeuvre.',
@@ -270,7 +270,7 @@ export const mockCars: Car[] = [
     carType: 'SUV',
     gearType: 'Automatic',
     capacity: '5+ persons',
-    fuelType: 'Gasoline/Mild Hybrid',
+    fuelType: 'Gas/Mild Hybrid',
     insurance: 'Full Insurance',
     description:
       'Serious off-road capability in a body shape that still works for families.',
@@ -285,7 +285,7 @@ export const mockCars: Car[] = [
     carType: 'Station Car',
     gearType: 'Manual',
     capacity: '2 persons',
-    fuelType: 'Gasoline',
+    fuelType: 'Gas',
     insurance: 'Liability Insurance',
     description:
       'Iconic small car that is charming to drive and easy to park anywhere.',
@@ -300,7 +300,7 @@ export const mockCars: Car[] = [
     carType: 'SUV',
     gearType: 'Automatic',
     capacity: '5 persons',
-    fuelType: 'Gasoline',
+    fuelType: 'Gas',
     insurance: 'Full Insurance',
     description:
       'Premium sports SUV with a powerful engine and an excellent driver focus.',
