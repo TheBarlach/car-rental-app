@@ -30,7 +30,6 @@ Run lint and typecheck before declaring any task done.
 - Type screen props with `NativeStackScreenProps<RootStackParamList, 'Route'>`. The prop may be wrapped in `Partial<>` so a screen can be unit-tested without a `NavigationContainer`.
 - Every screen renders our own `BottomNavigation`; navigate with `navigation.navigate(...)` from the screen, not a nested navigator.
 - The team branches (`feat/admin-page`, `feat/settings-page`, `feat/car-setting-page`, `feature/auth-screens`) all use this pattern. Match it — deviating here creates merge conflicts.
-- `react-native-screens` is native code, so the app needs a development build (`npx expo run:android`) rather than Expo Go.
 
 ## Project structure
 
@@ -47,5 +46,5 @@ Docs: https://docs.expo.dev/eas/index.md
 ## Rules
 
 - If `ios/` and `android/` directories do not exist, they are generated (Continuous Native Generation). Never create or edit them by hand — configure native behavior in `app.json` and config plugins.
-- Expo Go only includes its bundled native modules. After adding a library with native code, the app needs a development build: `npx expo run:ios|android` locally, or `eas build --profile development`.
+- Expo Go bundles a large set of native modules, including `react-native-screens`, `react-native-svg`, `react-native-safe-area-context`, the pickers and the slider. Before assuming a new library needs a development build, check the "Included in Expo Go" flag on its SDK docs page. Only if it is absent do you need one: `npx expo run:ios|android` locally, or `eas build --profile development`.
 - Prefer recommended Expo modules over third-party libraries, and check your available skills before adding dependencies. Docs: https://docs.expo.dev/versions/latest/index.md
