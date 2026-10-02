@@ -3,6 +3,7 @@ import type { ViewStyle } from 'react-native';
 import { render, screen, userEvent } from '@testing-library/react-native';
 
 import { Avatar, ScreenHeader } from '../src/components';
+import { hitTarget } from '../src/theme';
 import { styles as headerStyles } from '../src/components/ScreenHeader.styles';
 
 function avatarStyle(): ViewStyle {
@@ -42,9 +43,10 @@ describe('ScreenHeader', () => {
     expect(screen.getByRole('button', { name: 'Min profil' })).toBeTruthy();
   });
 
-  test('holder designsystemets sidelæns margin og minimumshøjde', () => {
+  test('holder designsystemets sidelæns margin og minimumshøjde på 48dp', () => {
     expect(headerStyles.container.paddingHorizontal).toBe(30);
-    expect(headerStyles.container.minHeight).toBe(44);
+    expect(headerStyles.container.minHeight).toBe(hitTarget.min);
+    expect(headerStyles.container.minHeight).toBeGreaterThanOrEqual(48);
   });
 
   test('fordeler side-slottene i hver sin ende, så center automatisk centreres', () => {

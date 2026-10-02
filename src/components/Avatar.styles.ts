@@ -1,5 +1,7 @@
 import { StyleSheet } from 'react-native';
 
+import { colors } from '../theme';
+
 export const styles = StyleSheet.create({
   container: {
     width: 44,
@@ -9,8 +11,8 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
     overflow: 'hidden',
     borderWidth: 1,
-    borderColor: '#71748A',
-    backgroundColor: '#CED0F8',
+    borderColor: colors.borderStrong,
+    backgroundColor: colors.accentSoft,
   },
   image: {
     width: '100%',
@@ -19,6 +21,6 @@ export const styles = StyleSheet.create({
   initials: {
     fontSize: 16,
     fontWeight: '700',
-    color: '#171A1F',
+    color: colors.textStrong,
   },
 });

@@ -1,8 +1,10 @@
 import { StyleSheet } from 'react-native';
 
+import { hitTarget } from '../theme';
+
 export const styles = StyleSheet.create({
   container: {
-    minHeight: 44,
+    minHeight: hitTarget.min,
     paddingHorizontal: 30,
     flexDirection: 'row',
     alignItems: 'center',

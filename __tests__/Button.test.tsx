@@ -4,6 +4,7 @@ import { render, screen, userEvent } from '@testing-library/react-native';
 
 import { Button } from '../src/components';
 import { variantStyles } from '../src/components/Button.styles';
+import { colors } from '../src/theme';
 
 function flattenButtonStyle(name: string): ViewStyle {
   return StyleSheet.flatten(screen.getByRole('button', { name }).props.style) as ViewStyle;
@@ -36,9 +37,9 @@ describe('Button', () => {
   });
 
   test.each([
-    ['primary', '#636AE8'],
-    ['secondary', '#F3F4F6'],
-    ['danger', '#FBE6E6'],
+    ['primary', colors.accent],
+    ['secondary', colors.surfaceMuted],
+    ['danger', colors.surfaceDanger],
   ] as const)('applikerer %s-baggrund på knappen', async (variant, expected) => {
     await render(<Button label={variant} variant={variant} onPress={() => {}} />);
 

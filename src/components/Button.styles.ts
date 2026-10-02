@@ -1,12 +1,13 @@
 import { StyleSheet } from 'react-native';
 import type { TextStyle, ViewStyle } from 'react-native';
 
+import { colors, radius } from '../theme';
 import type { ButtonVariant } from './Button';
 
 export const styles = StyleSheet.create({
   container: {
     minHeight: 55,
-    borderRadius: 16,
+    borderRadius: radius.lg,
     paddingHorizontal: 20,
     alignItems: 'center',
     justifyContent: 'center',
@@ -29,18 +30,18 @@ export const variantStyles: Record<
   { container: ViewStyle; label: TextStyle; pressed: ViewStyle }
 > = {
   primary: {
-    container: { backgroundColor: '#636AE8' },
-    label: { color: '#FFFFFF' },
+    container: { backgroundColor: colors.accent },
+    label: { color: colors.textOnAccent },
     pressed: { opacity: 0.85 },
   },
   secondary: {
-    container: { backgroundColor: '#F3F4F6' },
-    label: { color: '#171A1F' },
+    container: { backgroundColor: colors.surfaceMuted },
+    label: { color: colors.textStrong },
     pressed: { opacity: 0.7 },
   },
   danger: {
-    container: { backgroundColor: '#FBE6E6' },
-    label: { color: '#8C1D18' },
+    container: { backgroundColor: colors.surfaceDanger },
+    label: { color: colors.textDanger },
     pressed: { opacity: 0.7 },
   },
 };
