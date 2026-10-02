@@ -6,6 +6,7 @@ import LoginScreen from '../features/auth/screens/LoginScreen';
 import RegisterScreen from '../features/auth/screens/RegisterScreen';
 import ForgotPasswordScreen from '../features/auth/screens/ForgotPasswordScreen';
 import SettingsScreen from '../features/settings/screens/SettingsScreen';
+import AdminScreen from '../features/admin/screens/AdminScreen';
 
 export type RootStackParamList = {
   Login: undefined;
@@ -18,6 +19,11 @@ export type RootStackParamList = {
   Bookings: undefined;
 
   AdminPage: undefined;
+
+  CarSettings: {
+    carId: string;
+  };
+
   PersonalInformation: undefined;
   DriversLicense: undefined;
   PaymentMethods: undefined;
@@ -36,11 +42,30 @@ export default function RootNavigator() {
         initialRouteName="Login"
         screenOptions={{ headerShown: false }}
       >
-        <Stack.Screen name="Login" component={LoginScreen} />
-        <Stack.Screen name="Register" component={RegisterScreen} />
-        <Stack.Screen name="ForgotPassword" component={ForgotPasswordScreen} />
+        <Stack.Screen
+          name="Login"
+          component={LoginScreen}
+        />
 
-        <Stack.Screen name="Settings" component={SettingsScreen} />
+        <Stack.Screen
+          name="Register"
+          component={RegisterScreen}
+        />
+
+        <Stack.Screen
+          name="ForgotPassword"
+          component={ForgotPasswordScreen}
+        />
+
+        <Stack.Screen
+          name="Settings"
+          component={SettingsScreen}
+        />
+
+        <Stack.Screen
+          name="AdminPage"
+          component={AdminScreen}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );
