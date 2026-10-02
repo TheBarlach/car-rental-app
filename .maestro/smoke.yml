@@ -1,4 +1,4 @@
 appId: com.thebarlach.carrentalapp
 ---
 - launchApp
-- assertVisible: "Hello World!"
+- assertVisible: "Search for a car"
