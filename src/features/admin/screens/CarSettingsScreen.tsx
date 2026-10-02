@@ -32,47 +32,51 @@ export default function CarSettingsScreen({
     (item) => item.id === carId
   );
 
-  if (!car) {
-    return (
-      <SafeAreaView style={styles.safeArea}>
-        <View style={styles.notFoundContainer}>
-          <Text style={styles.notFoundText}>
-            Car not found
-          </Text>
-        </View>
-      </SafeAreaView>
-    );
-  }
-
-  const [name, setName] = useState(car.name);
+  const [name, setName] = useState(
+    car?.name ?? ''
+  );
 
   const [
     registrationNumber,
     setRegistrationNumber,
-  ] = useState(car.registrationNumber);
+  ] = useState(
+    car?.registrationNumber ?? ''
+  );
 
   const [pricePerDay, setPricePerDay] =
     useState(
-      car.pricePerDay.toString()
+      car?.pricePerDay?.toString() ?? ''
     );
 
   const [status, setStatus] =
-    useState<CarStatus>(car.status);
+    useState<CarStatus>(
+      car?.status ?? 'not-active'
+    );
 
   const [carType, setCarType] =
-    useState(car.carType);
+    useState(
+      car?.carType ?? ''
+    );
 
   const [gearType, setGearType] =
-    useState(car.gearType);
+    useState(
+      car?.gearType ?? ''
+    );
 
   const [capacity, setCapacity] =
-    useState(car.capacity);
+    useState(
+      car?.capacity ?? ''
+    );
 
   const [fuelType, setFuelType] =
-    useState(car.fuelType);
+    useState(
+      car?.fuelType ?? ''
+    );
 
   const [description, setDescription] =
-    useState(car.description);
+    useState(
+      car?.description ?? ''
+    );
 
   const [showCarTypes, setShowCarTypes] =
     useState(false);
@@ -108,6 +112,18 @@ export default function CarSettingsScreen({
     'Diesel',
     'Electric',
   ];
+
+  if (!car) {
+    return (
+      <SafeAreaView style={styles.safeArea}>
+        <View style={styles.notFoundContainer}>
+          <Text style={styles.notFoundText}>
+            Car not found
+          </Text>
+        </View>
+      </SafeAreaView>
+    );
+  }
 
   const handleSave = () => {
     const parsedPrice = Number(pricePerDay);
