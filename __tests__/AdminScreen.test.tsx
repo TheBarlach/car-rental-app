@@ -6,7 +6,13 @@ import {
 } from '@testing-library/react-native';
 
 import AdminScreen from '../src/features/admin/screens/AdminScreen';
-import { mockCars } from '../src/data/mockCars';
+import {
+  mockCars,
+} from '../src/data/mockCars';
+
+jest.mock('@react-navigation/native', () => ({
+  useFocusEffect: jest.fn(),
+}));
 
 const mockNavigate = jest.fn();
 
@@ -83,7 +89,7 @@ describe('AdminScreen', () => {
     ).toBeTruthy();
   });
 
-  it('opens the add car form when the add button is pressed', async () => {
+  it('opens the add car page when the add button is pressed', async () => {
     const user = userEvent.setup();
 
     await renderAdminScreen();
@@ -93,66 +99,8 @@ describe('AdminScreen', () => {
     );
 
     expect(
-      screen.getByPlaceholderText('Car name')
-    ).toBeTruthy();
-
-    expect(
-      screen.getByPlaceholderText('Price per day')
-    ).toBeTruthy();
-  });
-
-  it('allows the admin to add a new car', async () => {
-    const user = userEvent.setup();
-
-    await renderAdminScreen();
-
-    await user.press(
-      screen.getByTestId('add-car-button')
-    );
-
-    await user.type(
-      screen.getByPlaceholderText('Car name'),
-      'Tesla Model 3'
-    );
-
-    await user.type(
-      screen.getByPlaceholderText('Price per day'),
-      '1500'
-    );
-
-    await user.press(
-      screen.getByTestId('submit-car-button')
-    );
-
-    expect(
-      screen.getByText('Tesla Model 3')
-    ).toBeTruthy();
-
-    expect(
-      screen.getByText('1500 kr/day')
-    ).toBeTruthy();
-  });
-
-  it('does not add a car when the fields are empty', async () => {
-    const user = userEvent.setup();
-
-    await renderAdminScreen();
-
-    await user.press(
-      screen.getByTestId('add-car-button')
-    );
-
-    await user.press(
-      screen.getByTestId('submit-car-button')
-    );
-
-    expect(
-      screen.getByPlaceholderText('Car name')
-    ).toBeTruthy();
-
-    expect(
-      screen.getByPlaceholderText('Price per day')
-    ).toBeTruthy();
+      mockNavigate
+    ).toHaveBeenCalledWith('AddCar');
   });
 
   it('opens car settings with the selected car id', async () => {
@@ -168,7 +116,9 @@ describe('AdminScreen', () => {
       )
     );
 
-    expect(mockNavigate).toHaveBeenCalledWith(
+    expect(
+      mockNavigate
+    ).toHaveBeenCalledWith(
       'CarSettings',
       {
         carId: car.id,
@@ -185,7 +135,9 @@ describe('AdminScreen', () => {
       screen.getByTestId('profile-button')
     );
 
-    expect(mockNavigate).toHaveBeenCalledWith(
+    expect(
+      mockNavigate
+    ).toHaveBeenCalledWith(
       'Settings'
     );
   });
