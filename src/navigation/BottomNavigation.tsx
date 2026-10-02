@@ -7,7 +7,7 @@ import { styles } from './BottomNavigation.styles';
 export type BottomNavigationTab = 'search' | 'map' | 'bookings';
 
 export interface BottomNavigationProps {
-  activeTab: BottomNavigationTab;
+  activeTab?: BottomNavigationTab;
   onTabPress?: (tab: BottomNavigationTab) => void;
 }
 

@@ -22,6 +22,20 @@ describe('BottomNavigation', () => {
     });
   });
 
+  it('markerer ingen tab som valgt når activeTab udelades', async () => {
+    await render(<BottomNavigation />);
+
+    expect(screen.getByRole('tab', { name: 'Search' }).props.accessibilityState).toEqual({
+      selected: false,
+    });
+    expect(screen.getByRole('tab', { name: 'Map' }).props.accessibilityState).toEqual({
+      selected: false,
+    });
+    expect(screen.getByRole('tab', { name: 'Bookings' }).props.accessibilityState).toEqual({
+      selected: false,
+    });
+  });
+
   it('er statisk og kalder ikke onTabPress uden et tryk', async () => {
     const spy = jest.fn();
 
