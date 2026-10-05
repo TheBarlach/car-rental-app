@@ -1,5 +1,5 @@
 import React from 'react';
-import { fireEvent, render, waitFor } from '@testing-library/react-native';
+import { act, fireEvent, render } from '@testing-library/react-native';
 import ForgotPasswordScreen from '../ForgotPasswordScreen';
 
 type Props = React.ComponentProps<typeof ForgotPasswordScreen>;
@@ -14,6 +14,13 @@ async function setup() {
   );
   return { navigation, ...utils };
 }
+
+// The screen fakes the reset request with a 600 ms delay; press and let it settle inside one act.
+const submitAndWaitForResetRequest = (button: Parameters<typeof fireEvent.press>[0]) =>
+  act(async () => {
+    void fireEvent.press(button);
+    await new Promise((resolve) => setTimeout(resolve, 700));
+  });
 
 describe('ForgotPasswordScreen', () => {
   beforeEach(() => {
@@ -39,19 +46,15 @@ describe('ForgotPasswordScreen', () => {
   it('shows the confirmation after a valid email', async () => {
     const { getByText, getByPlaceholderText } = await setup();
     await fireEvent.changeText(getByPlaceholderText('Enter email'), 'test@example.com');
-    await fireEvent.press(getByText('Send Email'));
-    await waitFor(
-      () => expect(getByText('An Email have been sent to you with a reset link')).toBeTruthy(),
-      { timeout: 3000 }
-    );
+    await submitAndWaitForResetRequest(getByText('Send Email'));
+    expect(getByText('An Email have been sent to you with a reset link')).toBeTruthy();
   });
 
   it('goes to Login from the confirmation screen', async () => {
     const { getByText, getByPlaceholderText, navigation } = await setup();
     await fireEvent.changeText(getByPlaceholderText('Enter email'), 'test@example.com');
-    await fireEvent.press(getByText('Send Email'));
-    const button = await waitFor(() => getByText('Go to login page'), { timeout: 3000 });
-    await fireEvent.press(button);
+    await submitAndWaitForResetRequest(getByText('Send Email'));
+    await fireEvent.press(getByText('Go to login page'));
     expect(navigation.navigate).toHaveBeenCalledWith('Login');
   });
 });

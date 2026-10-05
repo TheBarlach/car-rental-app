@@ -10,6 +10,12 @@ import BookingDetailsScreen from '../features/booking/booking_details/BookingDet
 import BookingsScreen from '../features/booking/BookingsScreen';
 import BookingConfirmationScreen from '../features/bookings/screens/BookingConfirmationScreen';
 
+import CarListScreen from '../features/cars/screens/CarListScreen';
+import CarDetailsScreen from '../features/cars/screens/CarDetailsScreen';
+import CreateBookingScreen from '../features/bookings/screens/CreateBookingScreen';
+import PaymentScreen from '../features/bookings/screens/PaymentScreen';
+import MyBookingsScreen from '../features/bookings/screens/MyBookingsScreen';
+
 import SettingsScreen from '../features/settings/screens/SettingsScreen';
 
 import AdminScreen from '../features/admin/screens/AdminScreen';
@@ -26,6 +32,9 @@ export type RootStackParamList = {
   Settings: undefined;
 
   Search: undefined;
+  CarDetails: { id?: string } | undefined;
+  CreateBooking: { carId?: string } | undefined;
+  Payment: { carId?: string } | undefined;
   Map: undefined;
 
   Bookings: undefined;
@@ -73,6 +82,31 @@ export default function RootNavigator() {
         <Stack.Screen
           name="ForgotPassword"
           component={ForgotPasswordScreen}
+        />
+
+        <Stack.Screen
+          name="Search"
+          component={CarListScreen}
+        />
+
+        <Stack.Screen
+          name="CarDetails"
+          component={CarDetailsScreen}
+        />
+
+        <Stack.Screen
+          name="CreateBooking"
+          component={CreateBookingScreen}
+        />
+
+        <Stack.Screen
+          name="Payment"
+          component={PaymentScreen}
+        />
+
+        <Stack.Screen
+          name="MyBooking"
+          component={MyBookingsScreen}
         />
 
         <Stack.Screen

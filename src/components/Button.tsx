@@ -1,42 +1,67 @@
 import React from 'react';
-import { ActivityIndicator, StyleSheet, Text, TouchableOpacity } from 'react-native';
+import {
+  ActivityIndicator,
+  Pressable,
+  StyleSheet,
+  Text,
+} from 'react-native';
+
 import { colors } from '../theme/colors';
 import { spacing } from '../theme/spacing';
 import { typography } from '../theme/typography';
 
-type Props = {
+type ButtonProps = {
   title: string;
   onPress: () => void;
   loading?: boolean;
   disabled?: boolean;
 };
 
-export default function Button({ title, onPress, loading, disabled }: Props) {
+export default function Button({
+  title,
+  onPress,
+  loading = false,
+  disabled = false,
+}: ButtonProps) {
   const inactive = disabled || loading;
+
   return (
-    <TouchableOpacity
-      style={[styles.button, inactive && styles.inactive]}
+    <Pressable
+      accessibilityRole="button"
       onPress={onPress}
       disabled={inactive}
-      activeOpacity={0.8}
+      style={({ pressed }) => [
+        styles.button,
+        inactive && styles.inactive,
+        pressed && !inactive && styles.pressed,
+      ]}
     >
       {loading ? (
         <ActivityIndicator color={colors.white} />
       ) : (
         <Text style={styles.text}>{title}</Text>
       )}
-    </TouchableOpacity>
+    </Pressable>
   );
 }
 
 const styles = StyleSheet.create({
   button: {
     backgroundColor: colors.primary,
-    height: 54,
+    minHeight: 54,
+    paddingHorizontal: 20,
     borderRadius: spacing.radius,
     alignItems: 'center',
     justifyContent: 'center',
   },
-  inactive: { opacity: 0.6 },
-  text: { ...typography.button, color: colors.white },
+  inactive: {
+    opacity: 0.6,
+  },
+  pressed: {
+    opacity: 0.7,
+  },
+  text: {
+    ...typography.button,
+    color: colors.white,
+  },
 });
