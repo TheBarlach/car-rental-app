@@ -1,25 +1,28 @@
 import { useEffect, useState } from 'react';
-import { router, useLocalSearchParams } from 'expo-router';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import {
   ActivityIndicator,
   Pressable,
-  SafeAreaView,
   ScrollView,
   StyleSheet,
   Text,
   TextInput,
   View,
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { getCarById } from '../../cars/carService';
 import type { Car } from '../../cars/carService';
+import type { RootStackParamList } from '../../../navigation/RootNavigator';
+
+type Props = NativeStackScreenProps<RootStackParamList, 'Payment'>;
 
 type PaymentMethod = 'card' | 'paypal' | 'applePay';
 const rentalDays = 6;
 const serviceFee = 150;
 
-export default function PaymentScreen() {
-  const { carId } = useLocalSearchParams<{ carId?: string }>();
+export default function PaymentScreen({ navigation, route }: Props) {
+  const carId = route.params?.carId;
   const [car, setCar] = useState<Car | null>(null);
   const [loading, setLoading] = useState(true);
   const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>('card');
@@ -61,7 +64,7 @@ export default function PaymentScreen() {
     return (
       <SafeAreaView style={styles.loading}>
         <Text style={styles.error}>The selected car could not be found.</Text>
-        <Pressable onPress={() => router.back()}>
+        <Pressable onPress={() => navigation.goBack()}>
           <Text style={styles.backLink}>Go back</Text>
         </Pressable>
       </SafeAreaView>
@@ -74,7 +77,7 @@ export default function PaymentScreen() {
   return (
     <SafeAreaView style={styles.screen}>
       <View style={styles.header}>
-        <Pressable accessibilityRole="button" accessibilityLabel="Go back" onPress={() => router.back()} hitSlop={12}>
+        <Pressable accessibilityRole="button" accessibilityLabel="Go back" onPress={() => navigation.goBack()} hitSlop={12}>
           <Text style={styles.backArrow}>‹</Text>
         </Pressable>
         <Text style={styles.headerTitle}>Payment</Text>

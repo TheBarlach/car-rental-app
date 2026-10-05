@@ -1,4 +1,4 @@
-import { router, useLocalSearchParams } from 'expo-router';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { useEffect, useState } from 'react';
 import { Dropdown } from 'react-native-element-dropdown';
 import DateTimePicker from '@react-native-community/datetimepicker';
@@ -13,14 +13,13 @@ import {
 import Button from '../../../components/Button';
 import { getCarById } from '../carService';
 import type { Car } from '../carService';
+import type { RootStackParamList } from '../../../navigation/RootNavigator';
 
-export default function CarDetailsScreen() {
-    const { id } = useLocalSearchParams<{
-        id?: string | string[];
-    }>();
+type Props = NativeStackScreenProps<RootStackParamList, 'CarDetails'>;
 
+export default function CarDetailsScreen({ navigation, route }: Props) {
     // Vis den første dummybil, hvis der ikke er sendt et ID.
-    const carId = (Array.isArray(id) ? id[0] : id) ?? 'car-001';
+    const carId = route.params?.id ?? 'car-001';
 
     const [car, setCar] = useState<Car | null>(null);
     const [loading, setLoading] = useState(true);
@@ -76,8 +75,8 @@ export default function CarDetailsScreen() {
             <View style={styles.centered}>
                 <Text style={styles.description}>{error ?? 'Car not found.'}</Text>
                 <Button
-                    title="Back to seach"
-                    onPress={() => router.replace('/(tabs)')}
+                    title="Back to search"
+                    onPress={() => navigation.replace('Search')}
                 />
             </View>
         );
@@ -149,10 +148,7 @@ export default function CarDetailsScreen() {
                 <Button
                     title="Continue to Book"
                     onPress={() =>
-                        router.push({
-                            pathname: '/bookings/payment',
-                            params: { carId: car.id },
-                        })
+                        navigation.navigate('Payment', { carId: car.id })
                     }
                 />
             </View>
