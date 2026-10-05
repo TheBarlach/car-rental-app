@@ -6,6 +6,8 @@ import LoginScreen from '../features/auth/screens/LoginScreen';
 import RegisterScreen from '../features/auth/screens/RegisterScreen';
 import ForgotPasswordScreen from '../features/auth/screens/ForgotPasswordScreen';
 
+import BookingDetailsScreen from '../features/booking/booking_details/BookingDetailsScreen';
+import BookingsScreen from '../features/booking/BookingsScreen';
 import BookingConfirmationScreen from '../features/bookings/screens/BookingConfirmationScreen';
 
 import SettingsScreen from '../features/settings/screens/SettingsScreen';
@@ -25,7 +27,11 @@ export type RootStackParamList = {
 
   Search: undefined;
   Map: undefined;
+
   Bookings: undefined;
+  BookingDetails: {
+    bookingId: string;
+  };
 
   AdminPage: undefined;
   AddCar: undefined;
@@ -67,6 +73,16 @@ export default function RootNavigator() {
         <Stack.Screen
           name="ForgotPassword"
           component={ForgotPasswordScreen}
+        />
+
+        <Stack.Screen
+          name="Bookings"
+          component={BookingsScreen}
+        />
+
+        <Stack.Screen
+          name="BookingDetails"
+          component={BookingDetailsScreen}
         />
 
         <Stack.Screen

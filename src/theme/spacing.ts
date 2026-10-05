@@ -7,4 +7,10 @@ export const spacing = {
     xxl: 48,
     screenPadding: 20,
     radius: 8,
+    bookingScreenPadding: 7,
+    bookingCardGap: 7,
+    bookingCardPadding: 5,
+    bookingContentGap: 7,
+    bookingSpecGap: 8,
+    bookingDateGap: 18,
   };
