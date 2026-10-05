@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import {
   SafeAreaView,
   ScrollView,
@@ -14,15 +14,17 @@ type BookingConfirmationScreenProps = {
   };
 };
 
+const generateBookingId = () => {
+  const randomNumber = Math.floor(10000 + Math.random() * 90000);
+
+  return `DOTG${randomNumber}`;
+};
+
+const bookingId = generateBookingId();
+
 export default function BookingConfirmationScreen({
   navigation,
 }: BookingConfirmationScreenProps) {
-  const bookingId = useMemo(() => {
-    const randomNumber = Math.floor(10000 + Math.random() * 90000);
-
-    return `DOTG${randomNumber}`;
-  }, []);
-
   const handleViewBookings = () => {
     navigation?.navigate('Bookings');
   };
@@ -46,8 +48,8 @@ export default function BookingConfirmationScreen({
         <Text style={styles.title}>Booking Confirmed!</Text>
 
         <Text style={styles.description}>
-          Your car has been reserved. We've sent a confirmation email with all
-          the details.
+          Your car has been reserved. We&apos;ve sent a confirmation email with
+          all the details.
         </Text>
 
         {/* Booking card */}
