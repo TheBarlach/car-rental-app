@@ -12,6 +12,6 @@ export default function App() {
   );
 }
 // To test the map screen in isolation, render this instead of <RootNavigator />:
-//   import { MapScreen } from './src/features/map/MapScreen';
-//   import { mockMapCars } from './src/features/map/map.mock';
-//   return <MapScreen cars={mockMapCars} />;
+//   import { MapScreen } from './src/features/map/screens/MapScreen';
+//   import { mockCars } from './src/data/mockCars';
+//   return <MapScreen cars={mockCars} />;

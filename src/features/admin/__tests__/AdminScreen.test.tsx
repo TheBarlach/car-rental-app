@@ -5,10 +5,10 @@ import {
   userEvent,
 } from '@testing-library/react-native';
 
-import AdminScreen from '../src/features/admin/screens/AdminScreen';
+import AdminScreen from '../screens/AdminScreen';
 import {
   mockCars,
-} from '../src/data/mockCars';
+} from '../../../data/mockCars';
 
 jest.mock('@react-navigation/native', () => ({
   useFocusEffect: jest.fn(),

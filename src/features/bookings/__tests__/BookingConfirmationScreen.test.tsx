@@ -4,7 +4,8 @@ import {
   render,
 } from '@testing-library/react-native';
 
-import BookingConfirmationScreen from '../src/features/bookings/screens/BookingConfirmationScreen';
+import BookingConfirmationScreen from '../screens/BookingConfirmationScreen';
+import { mockCars } from '../../../data/mockCars';
 
 const mockNavigate = jest.fn();
 
@@ -69,13 +70,37 @@ describe('BookingConfirmationScreen', () => {
     expect(mockNavigate).toHaveBeenCalledWith('Bookings');
   });
 
-  it('navigates to home when Back to home is pressed', async () => {
+  it('navigates to the map when Back to home is pressed', async () => {
     const { getByText } = await renderScreen();
 
     await fireEvent.press(
       getByText('Back to home'),
     );
 
-    expect(mockNavigate).toHaveBeenCalledWith('Home');
+    expect(mockNavigate).toHaveBeenCalledWith('Map');
+  });
+});
+describe('BookingConfirmationScreen with booking data', () => {
+  it('shows the car that was booked', async () => {
+    const car = mockCars[1];
+
+    const { getByText, queryByText } = await render(
+      <BookingConfirmationScreen
+        navigation={mockNavigation}
+        route={{
+          params: {
+            car,
+            startDate: new Date(2026, 0, 10).toISOString(),
+            endDate: new Date(2026, 0, 12).toISOString(),
+          },
+        }}
+      />,
+    );
+
+    expect(getByText(car.name)).toBeTruthy();
+    expect(getByText(`Registration number ${car.registrationNumber}`)).toBeTruthy();
+    expect(getByText(`${car.pricePerDay} kr/day`)).toBeTruthy();
+    expect(getByText(car.location!.name)).toBeTruthy();
+    expect(queryByText('VW Golf VIII 1.5 eTSI')).toBeNull();
   });
 });

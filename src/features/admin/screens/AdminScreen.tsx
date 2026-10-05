@@ -15,6 +15,7 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { useFocusEffect } from '@react-navigation/native';
 
 import BottomNavigation from '../../../components/BottomNavigation';
+import SettingsIcon from '../../../components/SettingsIcon';
 import { RootStackParamList } from '../../../navigation/RootNavigator';
 import {
   Car,
@@ -47,17 +48,12 @@ export default function AdminScreen({
             DriveOn{'\n'}TheGo
           </Text>
 
-          <Pressable
+          <SettingsIcon
             testID="profile-button"
-            style={styles.profile}
             onPress={() =>
               navigation.navigate('Settings')
             }
-          >
-            <Text style={styles.profileText}>
-              👩
-            </Text>
-          </Pressable>
+          />
         </View>
 
         <ScrollView
@@ -177,19 +173,6 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     lineHeight: 10,
     color: '#0057A8',
-  },
-
-  profile: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    backgroundColor: '#DDDFF8',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-
-  profileText: {
-    fontSize: 22,
   },
 
   scrollView: {

@@ -8,13 +8,13 @@ type Props = NativeStackScreenProps<RootStackParamList, 'CreateBooking'>;
 export default function CreateBookingScreen({ navigation, route }: Props) {
   const carId = route.params?.carId;
   return (
-    <Screen title="Book bil" description={`Her vil bookingformularen være. Bil-ID: ${carId ?? 'Ingen bil valgt'}. Der oprettes ingen booking i denne demo.`}>
+    <Screen title="Book a car" description={`The booking form will be shown here. Car ID: ${carId ?? 'No car selected'}. No booking is created in this demo.`}>
       <Button
-        title="Gå til betaling"
+        title="Go to payment"
         onPress={() => navigation.navigate('Payment', { carId })}
       />
-      <Button title="Se mine bookinger" onPress={() => navigation.navigate('MyBooking')} />
-      <Button title="Til biloversigten" onPress={() => navigation.navigate('Search')} />
+      <Button title="See my bookings" onPress={() => navigation.navigate('MyBooking')} />
+      <Button title="Back to car overview" onPress={() => navigation.navigate('Search')} />
     </Screen>
   );
 }

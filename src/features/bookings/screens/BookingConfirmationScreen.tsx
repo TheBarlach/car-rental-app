@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   ScrollView,
   StyleSheet,
@@ -8,11 +8,36 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
+import { mockCars } from '../../../data/mockCars';
+import type { RootStackParamList } from '../../../navigation/RootNavigator';
+
 type BookingConfirmationScreenProps = {
   navigation?: {
     navigate: (screen: string) => void;
   };
+  route?: {
+    params?: RootStackParamList['BookingConfirmation'];
+  };
 };
+
+// Shown when the screen is opened without booking data (e.g. directly in development).
+const demoCar = mockCars[0];
+const fallbackAddress = 'Campusvej 55, 5230 Odense M';
+const demoBooking = {
+  carName: demoCar.name,
+  registrationNumber: demoCar.registrationNumber,
+  pricePerDay: demoCar.pricePerDay,
+  startDate: 'Dec 1, 2026',
+  endDate: 'Dec 7, 2026',
+  address: demoCar.location?.name ?? fallbackAddress,
+};
+
+const formatDate = (isoDate: string) =>
+  new Date(isoDate).toLocaleDateString('en-US', {
+    month: 'short',
+    day: 'numeric',
+    year: 'numeric',
+  });
 
 const generateBookingId = () => {
   const randomNumber = Math.floor(10000 + Math.random() * 90000);
@@ -20,32 +45,47 @@ const generateBookingId = () => {
   return `DOTG${randomNumber}`;
 };
 
-const bookingId = generateBookingId();
-
 export default function BookingConfirmationScreen({
   navigation,
+  route,
 }: BookingConfirmationScreenProps) {
+  const [bookingId] = useState(generateBookingId);
+  const details = route?.params;
+  const booking = details
+    ? {
+        carName: details.car.name,
+        registrationNumber: details.car.registrationNumber,
+        pricePerDay: details.car.pricePerDay,
+        startDate: formatDate(details.startDate),
+        endDate: formatDate(details.endDate),
+        address: details.car.location?.name ?? fallbackAddress,
+      }
+    : demoBooking;
+
   const handleViewBookings = () => {
     navigation?.navigate('Bookings');
   };
 
   const handleBackHome = () => {
-    navigation?.navigate('Home');
+    navigation?.navigate('Map');
   };
 
   return (
     <SafeAreaView style={styles.safeArea}>
-      <ScrollView
-        contentContainerStyle={styles.container}
-        showsVerticalScrollIndicator={false}
-      >
-        {/* Confirmation icon */}
+      {/* Fixed top: confirmation icon and heading */}
+      <View style={styles.header}>
         <View style={styles.confirmationIcon}>
           <Text style={styles.checkmark}>✓</Text>
         </View>
 
-        {/* Heading */}
         <Text style={styles.title}>Booking Confirmed!</Text>
+      </View>
+
+      <ScrollView
+        style={styles.scroll}
+        contentContainerStyle={styles.container}
+        showsVerticalScrollIndicator={false}
+      >
 
         <Text style={styles.description}>
           Your car has been reserved. We&apos;ve sent a confirmation email with
@@ -61,13 +101,13 @@ export default function BookingConfirmationScreen({
             </View>
 
             <View style={styles.carDetails}>
-              <Text style={styles.carName}>VW Golf VIII 1.5 eTSI</Text>
+              <Text style={styles.carName}>{booking.carName}</Text>
 
               <Text style={styles.registration}>
-                Registration number AB 12 345
+                Registration number {booking.registrationNumber}
               </Text>
 
-              <Text style={styles.price}>2200 kr/day</Text>
+              <Text style={styles.price}>{booking.pricePerDay} kr/day</Text>
             </View>
           </View>
 
@@ -92,7 +132,7 @@ export default function BookingConfirmationScreen({
               <Text style={styles.detailLabel}>Start date</Text>
             </View>
 
-            <Text style={styles.detailValue}>Dec 1, 2026 10:00 AM</Text>
+            <Text style={styles.detailValue}>{booking.startDate}</Text>
           </View>
 
           {/* End date */}
@@ -102,7 +142,7 @@ export default function BookingConfirmationScreen({
               <Text style={styles.detailLabel}>End date</Text>
             </View>
 
-            <Text style={styles.detailValue}>Dec 7, 2026 10:00 PM</Text>
+            <Text style={styles.detailValue}>{booking.endDate}</Text>
           </View>
 
           {/* Location */}
@@ -113,12 +153,15 @@ export default function BookingConfirmationScreen({
             </View>
 
             <Text style={[styles.detailValue, styles.locationText]}>
-              Campusvej 55, 5230{'\n'}Odense M
+              {booking.address}
             </Text>
           </View>
         </View>
 
-        {/* Buttons */}
+      </ScrollView>
+
+      {/* Fixed bottom: buttons */}
+      <View style={styles.footer}>
         <TouchableOpacity
           style={styles.primaryButton}
           onPress={handleViewBookings}
@@ -134,7 +177,7 @@ export default function BookingConfirmationScreen({
         >
           <Text style={styles.secondaryButtonText}>Back to home</Text>
         </TouchableOpacity>
-      </ScrollView>
+      </View>
     </SafeAreaView>
   );
 }
@@ -145,11 +188,26 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
   },
 
+  header: {
+    paddingHorizontal: 24,
+    paddingTop: 42,
+  },
+
+  scroll: {
+    flex: 1,
+  },
+
   container: {
     flexGrow: 1,
     paddingHorizontal: 24,
-    paddingTop: 42,
-    paddingBottom: 30,
+    paddingBottom: 16,
+  },
+
+  footer: {
+    paddingHorizontal: 24,
+    paddingTop: 12,
+    paddingBottom: 12,
+    backgroundColor: '#FFFFFF',
   },
 
   confirmationIcon: {

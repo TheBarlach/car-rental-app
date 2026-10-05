@@ -2,14 +2,16 @@ import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
+import type { Car } from '../data/mockCars';
 import LoginScreen from '../features/auth/screens/LoginScreen';
 import RegisterScreen from '../features/auth/screens/RegisterScreen';
 import ForgotPasswordScreen from '../features/auth/screens/ForgotPasswordScreen';
 
-import BookingDetailsScreen from '../features/booking/booking_details/BookingDetailsScreen';
-import BookingsScreen from '../features/booking/BookingsScreen';
+import BookingDetailsScreen from '../features/bookings/screens/BookingDetailsScreen';
+import BookingsScreen from '../features/bookings/screens/BookingsScreen';
 import BookingConfirmationScreen from '../features/bookings/screens/BookingConfirmationScreen';
 
+import MapRouteScreen from '../features/map/screens/MapRouteScreen';
 import CarListScreen from '../features/cars/screens/CarListScreen';
 import CarDetailsScreen from '../features/cars/screens/CarDetailsScreen';
 import CreateBookingScreen from '../features/bookings/screens/CreateBookingScreen';
@@ -27,15 +29,20 @@ export type RootStackParamList = {
   Register: undefined;
   ForgotPassword: undefined;
 
-  BookingConfirmation: undefined;
+  BookingConfirmation: {
+    car: Car;
+    // ISO date strings; route params must stay serializable.
+    startDate: string;
+    endDate: string;
+  } | undefined;
 
   Settings: undefined;
 
   Search: undefined;
+  Map: undefined;
   CarDetails: { id?: string } | undefined;
   CreateBooking: { carId?: string } | undefined;
-  Payment: { carId?: string } | undefined;
-  Map: undefined;
+  Payment: { carId?: string; car?: Car; startDate?: string; endDate?: string } | undefined;
 
   Bookings: undefined;
   BookingDetails: {
@@ -82,6 +89,11 @@ export default function RootNavigator() {
         <Stack.Screen
           name="ForgotPassword"
           component={ForgotPasswordScreen}
+        />
+
+        <Stack.Screen
+          name="Map"
+          component={MapRouteScreen}
         />
 
         <Stack.Screen

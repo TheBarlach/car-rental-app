@@ -5,7 +5,7 @@ import {
   userEvent,
 } from '@testing-library/react-native';
 
-import CarSettingsScreen from '../src/features/admin/screens/CarSettingsScreen';
+import CarSettingsScreen from '../screens/CarSettingsScreen';
 
 const mockGoBack = jest.fn();
 
@@ -47,7 +47,7 @@ describe('CarSettingsScreen', () => {
     ).toBeTruthy();
 
     expect(
-      screen.getByDisplayValue('13350')
+      screen.getByDisplayValue('2200')
     ).toBeTruthy();
 
     expect(
@@ -136,7 +136,7 @@ describe('CarSettingsScreen', () => {
     await renderCarSettingsScreen();
 
     const priceInput =
-      screen.getByDisplayValue('13350');
+      screen.getByDisplayValue('2200');
 
     await user.clear(priceInput);
 

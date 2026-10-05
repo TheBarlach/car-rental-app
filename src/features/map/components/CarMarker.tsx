@@ -1,16 +1,16 @@
 import { Image, Pressable, StyleSheet } from 'react-native';
 
-import type { MapCar } from '../map.types';
+import type { Car } from '../../../data/mockCars';
 
 type CarMarkerProps = {
-	car: MapCar;
-	onPress: (car: MapCar) => void;
+	car: Car;
+	onPress: (car: Car) => void;
 };
 
 export function CarMarker({ car, onPress }: CarMarkerProps) {
 	return (
 		<Pressable
-			accessibilityLabel={`Select ${car.name} at ${car.locationName}`}
+			accessibilityLabel={`Select ${car.name} at ${car.location?.name}`}
 			onPress={() => onPress(car)}
 			style={({ pressed }) => [styles.marker, pressed && styles.pressed]}
 		>

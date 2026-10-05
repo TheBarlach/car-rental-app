@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import {
   Pressable,
+  ScrollView,
   StyleSheet,
   Switch,
   Text,
@@ -29,90 +30,97 @@ export default function SettingsScreen({ navigation }: Props) {
         <View style={styles.content}>
           <Text style={styles.title}>Settings</Text>
 
-          <View style={styles.profileCard}>
-            <View style={styles.avatar}>
-              <Text style={styles.avatarText}>MM</Text>
-            </View>
+          <ScrollView
+            style={styles.scroll}
+            contentContainerStyle={styles.scrollContent}
+            showsVerticalScrollIndicator={false}
+          >
 
-            <View style={styles.profileInfo}>
-              <Text style={styles.name}>Maria Mikkelsen</Text>
-              <Text style={styles.email}>maria.mikkelsen@gmail.com</Text>
-            </View>
-          </View>
-
-          <View style={styles.settingsList}>
-            <SettingsRow
-                title="Admin Page"
-                icon="settings-outline"
-                onPress={() => navigation.navigate('AdminPage')}
-            />
-
-            <SettingsRow
-              title="Personal Information"
-              icon="person-circle-outline"
-              onPress={() => navigation.navigate('PersonalInformation')}
-            />
-
-            <SettingsRow
-              title="Driver's License"
-              icon="car-outline"
-              onPress={() => navigation.navigate('DriversLicense')}
-              rightText="Verified"
-            />
-
-            <SettingsRow
-              title="Payment Methods"
-              icon="card-outline"
-              onPress={() => navigation.navigate('PaymentMethods')}
-              rightText="2 cards"
-            />
-
-            <SettingsRow
-              title="My Booking"
-              icon="calendar-outline"
-              onPress={() => navigation.navigate('MyBooking')}
-            />
-
-            <View style={styles.notificationRow}>
-              <View style={styles.notificationLeft}>
-                <Ionicons
-                name="notifications-outline"
-                size={22}
-                color={colors.text}
-                />
-
-                <Text style={styles.notificationTitle}>
-                  Notifications
-                </Text>
+            <View style={styles.profileCard}>
+              <View style={styles.avatar}>
+                <Text style={styles.avatarText}>MM</Text>
               </View>
 
-              <View style={styles.switchContainer}>
-                <Switch
-                    value={notificationsEnabled}
-                    onValueChange={setNotificationsEnabled}
-                />
-                </View>
+              <View style={styles.profileInfo}>
+                <Text style={styles.name}>Maria Mikkelsen</Text>
+                <Text style={styles.email}>maria.mikkelsen@gmail.com</Text>
+              </View>
             </View>
 
-            <SettingsRow
-              title="Help & Support"
-              icon="help-circle-outline"
-              onPress={() => navigation.navigate('HelpSupport')}
-            />
+            <View style={styles.settingsList}>
+              <SettingsRow
+                  title="Admin Page"
+                  icon="settings-outline"
+                  onPress={() => navigation.navigate('AdminPage')}
+              />
 
-            <SettingsRow
-              title="About Drive On The Go"
-              icon="information-circle-outline"
-              onPress={() => navigation.navigate('About')}
-            />
-          </View>
+              <SettingsRow
+                title="Personal Information"
+                icon="person-circle-outline"
+                onPress={() => navigation.navigate('PersonalInformation')}
+              />
 
-          <Pressable
-            style={styles.logoutButton}
-            onPress={() => navigation.navigate('Login')}
-          >
-            <Text style={styles.logoutText}>Log Out</Text>
-          </Pressable>
+              <SettingsRow
+                title="Driver's License"
+                icon="car-outline"
+                onPress={() => navigation.navigate('DriversLicense')}
+                rightText="Verified"
+              />
+
+              <SettingsRow
+                title="Payment Methods"
+                icon="card-outline"
+                onPress={() => navigation.navigate('PaymentMethods')}
+                rightText="2 cards"
+              />
+
+              <SettingsRow
+                title="My Booking"
+                icon="calendar-outline"
+                onPress={() => navigation.navigate('Bookings')}
+              />
+
+              <View style={styles.notificationRow}>
+                <View style={styles.notificationLeft}>
+                  <Ionicons
+                  name="notifications-outline"
+                  size={22}
+                  color={colors.text}
+                  />
+
+                  <Text style={styles.notificationTitle}>
+                    Notifications
+                  </Text>
+                </View>
+
+                <View style={styles.switchContainer}>
+                  <Switch
+                      value={notificationsEnabled}
+                      onValueChange={setNotificationsEnabled}
+                  />
+                  </View>
+              </View>
+
+              <SettingsRow
+                title="Help & Support"
+                icon="help-circle-outline"
+                onPress={() => navigation.navigate('HelpSupport')}
+              />
+
+              <SettingsRow
+                title="About Drive On The Go"
+                icon="information-circle-outline"
+                onPress={() => navigation.navigate('About')}
+              />
+            </View>
+
+            <Pressable
+              style={styles.logoutButton}
+              onPress={() => navigation.navigate('Login')}
+            >
+              <Text style={styles.logoutText}>Log Out</Text>
+            </Pressable>
+          </ScrollView>
         </View>
 
         <BottomNavigation
@@ -140,6 +148,14 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingHorizontal: spacing.screenPadding,
     paddingTop: spacing.sm,
+  },
+
+  scroll: {
+    flex: 1,
+  },
+
+  scrollContent: {
+    paddingBottom: spacing.lg,
   },
 
   title: {

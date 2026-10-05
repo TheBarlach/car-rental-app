@@ -1,11 +1,11 @@
 import React from 'react';
-import { fireEvent, render, waitFor } from '@testing-library/react-native';
-import LoginScreen from '../LoginScreen';
+import { fireEvent, render } from '@testing-library/react-native';
+import LoginScreen from '../screens/LoginScreen';
 
 type Props = React.ComponentProps<typeof LoginScreen>;
 
 async function setup() {
-  const navigation = { navigate: jest.fn(), goBack: jest.fn() };
+  const navigation = { navigate: jest.fn(), replace: jest.fn(), goBack: jest.fn() };
   const utils = await render(
     <LoginScreen
       navigation={navigation as unknown as Props['navigation']}
@@ -37,22 +37,22 @@ describe('LoginScreen', () => {
     expect(getByText('Password is required')).toBeTruthy();
   });
 
-  it('shows an error for an invalid email', async () => {
-    const { getByText, getByPlaceholderText } = await setup();
-    await fireEvent.changeText(getByPlaceholderText('Enter email'), 'abc');
-    await fireEvent.changeText(getByPlaceholderText('Enter password'), 'secret123');
+  it('does not sign in when a field is empty', async () => {
+    const { getByText, getByPlaceholderText, navigation } = await setup();
+    await fireEvent.changeText(getByPlaceholderText('Enter email'), 'test@example.com');
     await fireEvent.press(getByText('Sign In'));
-    expect(getByText('Enter a valid email')).toBeTruthy();
+    expect(getByText('Password is required')).toBeTruthy();
+    expect(navigation.replace).not.toHaveBeenCalled();
   });
 
-  it('shows no errors for valid input', async () => {
-    const { getByText, getByPlaceholderText, queryByText } = await setup();
-    await fireEvent.changeText(getByPlaceholderText('Enter email'), 'test@example.com');
-    await fireEvent.changeText(getByPlaceholderText('Enter password'), 'secret123');
+  it('signs in with any non-empty email and password', async () => {
+    const { getByText, getByPlaceholderText, queryByText, navigation } = await setup();
+    await fireEvent.changeText(getByPlaceholderText('Enter email'), 'not-a-real-user');
+    await fireEvent.changeText(getByPlaceholderText('Enter password'), 'x');
     await fireEvent.press(getByText('Sign In'));
-    await waitFor(() => expect(getByText('Sign In')).toBeTruthy());
     expect(queryByText('Email is required')).toBeNull();
     expect(queryByText('Password is required')).toBeNull();
+    expect(navigation.replace).toHaveBeenCalledWith('Map');
   });
 
   it('navigates to ForgotPassword and Register', async () => {

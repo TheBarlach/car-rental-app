@@ -29,8 +29,6 @@ export default function LoginScreen({ navigation }: Props) {
     password?: string;
   }>({});
 
-  const [loading, setLoading] = useState(false);
-
   const validate = () => {
     const next: {
       email?: string;
@@ -39,8 +37,6 @@ export default function LoginScreen({ navigation }: Props) {
 
     if (!email.trim()) {
       next.email = 'Email is required';
-    } else if (!/\S+@\S+\.\S+/.test(email)) {
-      next.email = 'Enter a valid email';
     }
 
     if (!password) {
@@ -57,14 +53,9 @@ export default function LoginScreen({ navigation }: Props) {
       return;
     }
 
-    setLoading(true);
-
-    try {
-      // TODO: connect to authService.login(email, password)
-      console.log('Sign in', email);
-    } finally {
-      setLoading(false);
-    }
+    // TODO: connect to authService.login(email, password).
+    // Until then any non-empty email and password signs the user in.
+    navigation.replace('Map');
   };
 
   return (
@@ -109,7 +100,6 @@ export default function LoginScreen({ navigation }: Props) {
         <Button
           title="Sign In"
           onPress={handleSignIn}
-          loading={loading}
         />
       </View>
 

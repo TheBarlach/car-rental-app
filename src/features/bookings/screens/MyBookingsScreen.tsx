@@ -7,8 +7,8 @@ type Props = NativeStackScreenProps<RootStackParamList, 'MyBooking'>;
 
 export default function MyBookingsScreen({ navigation }: Props) {
   return (
-    <Screen title="Mine bookinger" description="Her vil dine bookinger blive vist. Dette er en demoside.">
-      <Button title="Find en bil" onPress={() => navigation.navigate('Search')} />
+    <Screen title="My bookings" description="Your bookings will be shown here. This is a demo page.">
+      <Button title="Find a car" onPress={() => navigation.navigate('Search')} />
     </Screen>
   );
 }
