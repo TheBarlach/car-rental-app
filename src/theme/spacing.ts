@@ -1,2 +1,17 @@
-// Placeholder for future implementation.
-export {};
+export const spacing = {
+  xs: 4,
+  sm: 8,
+  md: 16,
+  lg: 24,
+  xl: 32,
+  xxl: 48,
+  screenPadding: 20,
+  radius: 8,
+
+  bookingScreenPadding: 7,
+  bookingCardGap: 7,
+  bookingCardPadding: 5,
+  bookingContentGap: 7,
+  bookingSpecGap: 8,
+  bookingDateGap: 18,
+};

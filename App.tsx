@@ -1,17 +1,21 @@
-
+import React from 'react';
 import { StatusBar } from 'expo-status-bar';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import RootNavigator from './src/navigation/RootNavigator';
 import { StyleSheet, Text, View } from 'react-native';
+import { MapScreen } from './src/features/map/MapScreen';
+import { mockMapCars } from './src/features/map/map.mock';
 
 export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Hello World!</Text>
-      <Text style={styles.subtitle}>
-        Welcome to our Car Rental App
-      </Text>
+    return (
+    <SafeAreaProvider>
+      <RootNavigator />
       <StatusBar style="auto" />
-    </View>
+    </SafeAreaProvider>
   );
+}
+  /* Use this under to test the map screen. Just remove everything inside the App function above and uncomment the return statement below. */
+  /*return <MapScreen cars={mockMapCars} />;
 }
 
 const styles = StyleSheet.create({
@@ -34,4 +38,4 @@ const styles = StyleSheet.create({
     marginTop: 12,
     textAlign: 'center',
   },
-});
+}); */

@@ -1,29 +1,67 @@
-import { Pressable, StyleSheet, Text } from 'react-native';
+import React from 'react';
+import {
+  ActivityIndicator,
+  Pressable,
+  StyleSheet,
+  Text,
+} from 'react-native';
 
-type ButtonProps = { title: string; onPress: () => void };
+import { colors } from '../theme/colors';
+import { spacing } from '../theme/spacing';
+import { typography } from '../theme/typography';
 
-export default function Button({ title, onPress }: ButtonProps) {
+type ButtonProps = {
+  title: string;
+  onPress: () => void;
+  loading?: boolean;
+  disabled?: boolean;
+};
+
+export default function Button({
+  title,
+  onPress,
+  loading = false,
+  disabled = false,
+}: ButtonProps) {
+  const inactive = disabled || loading;
+
   return (
     <Pressable
       accessibilityRole="button"
       onPress={onPress}
-      style={({ pressed }) => [styles.button, pressed && styles.pressed]}
+      disabled={inactive}
+      style={({ pressed }) => [
+        styles.button,
+        inactive && styles.inactive,
+        pressed && !inactive && styles.pressed,
+      ]}
     >
-      <Text style={styles.label}>{title}</Text>
+      {loading ? (
+        <ActivityIndicator color={colors.white} />
+      ) : (
+        <Text style={styles.text}>{title}</Text>
+      )}
     </Pressable>
   );
 }
 
 const styles = StyleSheet.create({
   button: {
-    minHeight: 48,
+    backgroundColor: colors.primary,
+    minHeight: 54,
     paddingHorizontal: 20,
-    paddingVertical: 14,
-    borderRadius: 12,
-    backgroundColor: '#1d4ed8',
+    borderRadius: spacing.radius,
     alignItems: 'center',
     justifyContent: 'center',
   },
-  pressed: { opacity: 0.7 },
-  label: { color: '#ffffff', fontSize: 16, fontWeight: '600' },
+  inactive: {
+    opacity: 0.6,
+  },
+  pressed: {
+    opacity: 0.7,
+  },
+  text: {
+    ...typography.button,
+    color: colors.white,
+  },
 });
