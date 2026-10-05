@@ -1,60 +1,43 @@
-import React, { useState } from 'react';
+import React, {
+  useCallback,
+  useState,
+} from 'react';
 import {
+  Image,
   Pressable,
   ScrollView,
   StyleSheet,
   Text,
-  TextInput,
   View,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { useFocusEffect } from '@react-navigation/native';
 
 import BottomNavigation from '../../../components/BottomNavigation';
 import { RootStackParamList } from '../../../navigation/RootNavigator';
-import { Car, mockCars } from '../../../data/mockCars';
+import {
+  Car,
+  mockCars,
+} from '../../../data/mockCars';
 
-type Props = NativeStackScreenProps<RootStackParamList, 'AdminPage'>;
+type Props = NativeStackScreenProps<
+  RootStackParamList,
+  'AdminPage'
+>;
 
-export default function AdminScreen({ navigation }: Props) {
-  const [cars, setCars] = useState<Car[]>(mockCars);
+export default function AdminScreen({
+  navigation,
+}: Props) {
+  const [cars, setCars] = useState<Car[]>([
+    ...mockCars,
+  ]);
 
-  const [showForm, setShowForm] = useState(false);
-  const [carName, setCarName] = useState('');
-  const [pricePerDay, setPricePerDay] = useState('');
-
-  const handleAddCar = () => {
-    const parsedPrice = Number(pricePerDay);
-
-    if (
-      !carName.trim() ||
-      !pricePerDay.trim() ||
-      Number.isNaN(parsedPrice)
-    ) {
-      return;
-    }
-
-    const newCar: Car = {
-      id: Date.now().toString(),
-      name: carName.trim(),
-      pricePerDay: parsedPrice,
-    };
-
-    setCars((currentCars) => [
-      ...currentCars,
-      newCar,
-    ]);
-
-    setCarName('');
-    setPricePerDay('');
-    setShowForm(false);
-  };
-
-  const handleCancel = () => {
-    setCarName('');
-    setPricePerDay('');
-    setShowForm(false);
-  };
+  useFocusEffect(
+    useCallback(() => {
+      setCars([...mockCars]);
+    }, [])
+  );
 
   return (
     <SafeAreaView style={styles.safeArea}>
@@ -67,9 +50,13 @@ export default function AdminScreen({ navigation }: Props) {
           <Pressable
             testID="profile-button"
             style={styles.profile}
-            onPress={() => navigation.navigate('Settings')}
+            onPress={() =>
+              navigation.navigate('Settings')
+            }
           >
-            <Text style={styles.profileText}>👩</Text>
+            <Text style={styles.profileText}>
+              👩
+            </Text>
           </Pressable>
         </View>
 
@@ -78,7 +65,9 @@ export default function AdminScreen({ navigation }: Props) {
           contentContainerStyle={styles.content}
           showsVerticalScrollIndicator={false}
         >
-          <Text style={styles.title}>Cars</Text>
+          <Text style={styles.title}>
+            Cars
+          </Text>
 
           <View style={styles.list}>
             {cars.map((car) => (
@@ -87,17 +76,39 @@ export default function AdminScreen({ navigation }: Props) {
                 testID={`car-button-${car.id}`}
                 style={({ pressed }) => [
                   styles.carCard,
-                  pressed && styles.carCardPressed,
+                  pressed &&
+                    styles.carCardPressed,
                 ]}
                 onPress={() =>
-                  navigation.navigate('CarSettings', {
-                    carId: car.id,
-                  })
+                  navigation.navigate(
+                    'CarSettings',
+                    {
+                      carId: car.id,
+                    }
+                  )
                 }
               >
-                <View style={styles.carImage}>
-                  <Text style={styles.carEmoji}>🚗</Text>
-                </View>
+                {car.image ? (
+                  <Image
+                    source={car.image}
+                    style={styles.carImage}
+                    resizeMode="cover"
+                  />
+                ) : (
+                  <View
+                    style={
+                      styles.carImagePlaceholder
+                    }
+                  >
+                    <Text
+                      style={
+                        styles.carPlaceholderEmoji
+                      }
+                    >
+                      🚗
+                    </Text>
+                  </View>
+                )}
 
                 <View style={styles.carInfo}>
                   <Text style={styles.carName}>
@@ -111,61 +122,30 @@ export default function AdminScreen({ navigation }: Props) {
               </Pressable>
             ))}
 
-            {!showForm ? (
-              <Pressable
-                testID="add-car-button"
-                style={styles.addButton}
-                onPress={() => setShowForm(true)}
-              >
-                <Text style={styles.addButtonText}>+</Text>
-              </Pressable>
-            ) : (
-              <View style={styles.form}>
-                <TextInput
-                  placeholder="Car name"
-                  value={carName}
-                  onChangeText={setCarName}
-                  style={styles.input}
-                />
-
-                <TextInput
-                  placeholder="Price per day"
-                  value={pricePerDay}
-                  onChangeText={setPricePerDay}
-                  keyboardType="numeric"
-                  style={styles.input}
-                />
-
-                <View style={styles.formButtons}>
-                  <Pressable
-                    testID="cancel-car-button"
-                    style={styles.cancelButton}
-                    onPress={handleCancel}
-                  >
-                    <Text style={styles.cancelButtonText}>
-                      Cancel
-                    </Text>
-                  </Pressable>
-
-                  <Pressable
-                    testID="submit-car-button"
-                    style={styles.submitButton}
-                    onPress={handleAddCar}
-                  >
-                    <Text style={styles.submitButtonText}>
-                      Add car
-                    </Text>
-                  </Pressable>
-                </View>
-              </View>
-            )}
+            <Pressable
+              testID="add-car-button"
+              style={styles.addButton}
+              onPress={() =>
+                navigation.navigate('AddCar')
+              }
+            >
+              <Text style={styles.addButtonText}>
+                +
+              </Text>
+            </Pressable>
           </View>
         </ScrollView>
 
         <BottomNavigation
-          onSearch={() => navigation.navigate('Search')}
-          onMap={() => navigation.navigate('Map')}
-          onBookings={() => navigation.navigate('Bookings')}
+          onSearch={() =>
+            navigation.navigate('Search')
+          }
+          onMap={() =>
+            navigation.navigate('Map')
+          }
+          onBookings={() =>
+            navigation.navigate('Bookings')
+          }
         />
       </View>
     </SafeAreaView>
@@ -233,7 +213,7 @@ const styles = StyleSheet.create({
   },
 
   carCard: {
-    minHeight: 72,
+    minHeight: 82,
     borderRadius: 16,
     backgroundColor: '#E1E4E8',
     padding: 8,
@@ -247,20 +227,27 @@ const styles = StyleSheet.create({
   },
 
   carImage: {
-    width: 106,
-    height: 58,
+    width: 110,
+    height: 66,
+    borderRadius: 10,
+    backgroundColor: '#C8CBCF',
+  },
+
+  carImagePlaceholder: {
+    width: 110,
+    height: 66,
     borderRadius: 10,
     backgroundColor: '#C8CBCF',
     alignItems: 'center',
     justifyContent: 'center',
   },
 
-  carEmoji: {
+  carPlaceholderEmoji: {
     fontSize: 34,
   },
 
   carInfo: {
-    marginLeft: 10,
+    marginLeft: 12,
     flex: 1,
   },
 
@@ -289,49 +276,5 @@ const styles = StyleSheet.create({
     fontSize: 30,
     fontWeight: '300',
     color: '#555B64',
-  },
-
-  form: {
-    borderRadius: 16,
-    backgroundColor: '#E1E4E8',
-    padding: 14,
-  },
-
-  input: {
-    height: 44,
-    backgroundColor: '#FFFFFF',
-    borderRadius: 8,
-    paddingHorizontal: 12,
-    marginBottom: 10,
-  },
-
-  formButtons: {
-    flexDirection: 'row',
-    justifyContent: 'flex-end',
-    gap: 10,
-  },
-
-  cancelButton: {
-    paddingHorizontal: 16,
-    paddingVertical: 10,
-    borderRadius: 8,
-    backgroundColor: '#C8CBCF',
-  },
-
-  cancelButtonText: {
-    color: '#444444',
-    fontWeight: '600',
-  },
-
-  submitButton: {
-    paddingHorizontal: 16,
-    paddingVertical: 10,
-    borderRadius: 8,
-    backgroundColor: '#818CF8',
-  },
-
-  submitButtonText: {
-    color: '#FFFFFF',
-    fontWeight: '600',
   },
 });
