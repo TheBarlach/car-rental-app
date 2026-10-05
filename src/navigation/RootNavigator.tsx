@@ -8,6 +8,7 @@ import ForgotPasswordScreen from '../features/auth/screens/ForgotPasswordScreen'
 
 import BookingDetailsScreen from '../features/booking/booking_details/BookingDetailsScreen';
 import BookingsScreen from '../features/booking/BookingsScreen';
+import BookingConfirmationScreen from '../features/bookings/screens/BookingConfirmationScreen';
 
 import SettingsScreen from '../features/settings/screens/SettingsScreen';
 
@@ -19,6 +20,8 @@ export type RootStackParamList = {
   Login: undefined;
   Register: undefined;
   ForgotPassword: undefined;
+
+  BookingConfirmation: undefined;
 
   Settings: undefined;
 
@@ -80,6 +83,11 @@ export default function RootNavigator() {
         <Stack.Screen
           name="BookingDetails"
           component={BookingDetailsScreen}
+        />
+
+        <Stack.Screen
+          name="BookingConfirmation"
+          component={BookingConfirmationScreen}
         />
 
         <Stack.Screen
