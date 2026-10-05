@@ -18,28 +18,37 @@ import type { RootStackParamList } from '../../../navigation/RootNavigator';
 type Props = NativeStackScreenProps<RootStackParamList, 'Payment'>;
 
 type PaymentMethod = 'card' | 'paypal' | 'applePay';
-const rentalDays = 6;
+const defaultRentalDays = 6;
+const dayInMs = 24 * 60 * 60 * 1000;
 const serviceFee = 150;
 
 export default function PaymentScreen({ navigation, route }: Props) {
+  const passedCar = route.params?.car;
   const carId = route.params?.carId;
-  const [car, setCar] = useState<Car | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [car, setCar] = useState<Car | null>(passedCar ?? null);
+  const [loading, setLoading] = useState(!passedCar);
   const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>('card');
-  const [paymentComplete, setPaymentComplete] = useState(false);
-  const [startDate] = useState(() => new Date());
+  // Use the dates picked on CarDetails; fall back to a demo period when none were passed.
+  const [startDate] = useState(() =>
+    route.params?.startDate ? new Date(route.params.startDate) : new Date()
+  );
   const [endDate] = useState(() => {
+    if (route.params?.endDate) return new Date(route.params.endDate);
     const date = new Date();
-    date.setDate(date.getDate() + rentalDays);
+    date.setDate(date.getDate() + defaultRentalDays);
     return date;
   });
+  // A booking that starts and ends on the same day counts as one day.
+  const rentalDays = Math.max(1, Math.round((endDate.getTime() - startDate.getTime()) / dayInMs));
 
   useEffect(() => {
+    if (passedCar) return;
+
     let active = true;
 
     async function loadCar() {
       try {
-        const result = await getCarById(carId ?? 'car-001');
+        const result = await getCarById(carId ?? '1');
         if (active) setCar(result);
       } finally {
         if (active) setLoading(false);
@@ -50,7 +59,7 @@ export default function PaymentScreen({ navigation, route }: Props) {
     return () => {
       active = false;
     };
-  }, [carId]);
+  }, [carId, passedCar]);
 
   if (loading) {
     return (
@@ -173,19 +182,20 @@ export default function PaymentScreen({ navigation, route }: Props) {
       </ScrollView>
 
       <View style={styles.footer}>
-        {paymentComplete ? (
-          <Text accessibilityLiveRegion="polite" style={styles.confirmation}>
-            Demo payment complete. No money has been charged.
-          </Text>
-        ) : (
-          <Pressable
-            accessibilityRole="button"
-            onPress={() => setPaymentComplete(true)}
-            style={({ pressed }) => [styles.payButton, pressed && styles.pressed]}
-          >
-            <Text style={styles.payButtonText}>Pay Now  ♙</Text>
-          </Pressable>
-        )}
+        {/* Demo payment: no money is charged, it goes straight to the confirmation. */}
+        <Pressable
+          accessibilityRole="button"
+          onPress={() =>
+            navigation.replace('BookingConfirmation', {
+              car,
+              startDate: startDate.toISOString(),
+              endDate: endDate.toISOString(),
+            })
+          }
+          style={({ pressed }) => [styles.payButton, pressed && styles.pressed]}
+        >
+          <Text style={styles.payButtonText}>Pay Now  ♙</Text>
+        </Pressable>
       </View>
     </SafeAreaView>
   );
@@ -290,7 +300,6 @@ const styles = StyleSheet.create({
   payButton: { height: 49, alignItems: 'center', justifyContent: 'center', borderRadius: 13, backgroundColor: '#6266e9' },
   pressed: { opacity: 0.78 },
   payButtonText: { color: '#ffffff', fontSize: 17, fontWeight: '700' },
-  confirmation: { padding: 12, textAlign: 'center', color: '#166534', fontSize: 14 },
   error: { color: '#991b1b', fontSize: 16 },
   backLink: { color: '#6266e9', fontSize: 16, fontWeight: '600' },
 });

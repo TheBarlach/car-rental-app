@@ -496,6 +496,10 @@ export default function CarSettingsScreen({
             style={styles.descriptionInput}
           />
 
+        </ScrollView>
+
+        {/* Fixed bottom: stays visible while the form scrolls */}
+        <View style={styles.footer}>
           <Pressable
             testID="save-button"
             style={styles.saveButton}
@@ -505,7 +509,7 @@ export default function CarSettingsScreen({
               Save Changes
             </Text>
           </Pressable>
-        </ScrollView>
+        </View>
       </View>
     </SafeAreaView>
   );
@@ -581,7 +585,16 @@ const styles = StyleSheet.create({
   content: {
     paddingHorizontal: 18,
     paddingTop: 14,
-    paddingBottom: 40,
+    paddingBottom: 24,
+  },
+
+  footer: {
+    paddingHorizontal: 18,
+    paddingTop: 10,
+    paddingBottom: 12,
+    borderTopWidth: 1,
+    borderTopColor: '#E5E7EB',
+    backgroundColor: '#FFFFFF',
   },
 
   sectionLabel: {

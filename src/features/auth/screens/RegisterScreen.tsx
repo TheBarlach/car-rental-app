@@ -96,7 +96,7 @@ export default function RegisterScreen({ navigation }: Props) {
         acceptNewsletter,
       });
 
-      navigation.navigate('Login');
+      navigation.replace('Map');
     } finally {
       setLoading(false);
     }

@@ -1,11 +1,11 @@
 import React from 'react';
 import { fireEvent, render, waitFor } from '@testing-library/react-native';
-import RegisterScreen from '../RegisterScreen';
+import RegisterScreen from '../screens/RegisterScreen';
 
 type Props = React.ComponentProps<typeof RegisterScreen>;
 
 async function setup() {
-  const navigation = { navigate: jest.fn(), goBack: jest.fn() };
+  const navigation = { navigate: jest.fn(), replace: jest.fn(), goBack: jest.fn() };
   const utils = await render(
     <RegisterScreen
       navigation={navigation as unknown as Props['navigation']}
@@ -71,12 +71,14 @@ describe('RegisterScreen', () => {
     expect(utils.queryByText('Passwords do not match')).toBeNull();
   });
 
-  it('submits and goes to Login when everything is valid', async () => {
+  it('submits and goes to the map when everything is valid', async () => {
     const utils = await setup();
     await fillValid(utils);
     await fireEvent.press(utils.getByText(/I accept terms and conditions/));
     await fireEvent.press(utils.getByText('Sign Up'));
-    await waitFor(() => expect(utils.navigation.navigate).toHaveBeenCalledWith('Login'));
+    await waitFor(() =>
+      expect(utils.navigation.replace).toHaveBeenCalledWith('Map')
+    );
   });
 
   it('has a link back to Login', async () => {

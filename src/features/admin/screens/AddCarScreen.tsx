@@ -470,6 +470,10 @@ export default function AddCarScreen({
             style={styles.descriptionInput}
           />
 
+        </ScrollView>
+
+        {/* Fixed bottom: stays visible while the form scrolls */}
+        <View style={styles.footer}>
           <Pressable
             testID="create-car-button"
             style={styles.saveButton}
@@ -479,7 +483,7 @@ export default function AddCarScreen({
               Create Car
             </Text>
           </Pressable>
-        </ScrollView>
+        </View>
       </View>
     </SafeAreaView>
   );
@@ -544,7 +548,16 @@ const styles = StyleSheet.create({
   content: {
     paddingHorizontal: 18,
     paddingTop: 14,
-    paddingBottom: 40,
+    paddingBottom: 24,
+  },
+
+  footer: {
+    paddingHorizontal: 18,
+    paddingTop: 10,
+    paddingBottom: 12,
+    borderTopWidth: 1,
+    borderTopColor: '#E5E7EB',
+    backgroundColor: '#FFFFFF',
   },
 
   pageTitle: {

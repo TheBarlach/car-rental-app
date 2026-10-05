@@ -5,10 +5,10 @@ import {
   userEvent,
 } from '@testing-library/react-native';
 
-import AddCarScreen from '../src/features/admin/screens/AddCarScreen';
+import AddCarScreen from '../screens/AddCarScreen';
 import {
   mockCars,
-} from '../src/data/mockCars';
+} from '../../../data/mockCars';
 
 const mockGoBack = jest.fn();
 

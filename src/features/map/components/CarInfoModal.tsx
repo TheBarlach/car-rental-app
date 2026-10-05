@@ -1,11 +1,11 @@
 import {Image, Modal, Pressable, StyleSheet, Text, View} from 'react-native';
 
-import type {MapCar} from '../map.types';
+import type {Car} from '../../../data/mockCars';
 
 type CarInfoModalProps = {
-    car: MapCar | null;
+    car: Car | null;
     onClose: () => void;
-    onOpen?: (car: MapCar) => void;
+    onOpen?: (car: Car) => void;
 };
 
 export function CarInfoModal({car, onClose, onOpen}: CarInfoModalProps) {
@@ -16,37 +16,37 @@ export function CarInfoModal({car, onClose, onOpen}: CarInfoModalProps) {
     const rows = [
         {
             label: 'Brand/model',
-            value: car.specifications.brandModel,
+            value: car.name,
             icon: require('../assets/icons/car-side-placeholder.png'),
         },
         {
             label: 'Year',
-            value: String(car.specifications.year),
+            value: car.year ? String(car.year) : '-',
             icon: require('../assets/icons/calendar-placeholder.png'),
         },
         {
             label: 'Kilometer',
-            value: car.specifications.kilometer,
+            value: car.kilometer ?? '-',
             icon: require('../assets/icons/km-placeholder.png'),
         },
         {
             label: 'Fuel type',
-            value: car.specifications.fuelType,
+            value: car.fuelType,
             icon: require('../assets/icons/fuel-type-placeholder.png'),
         },
         {
             label: 'Gearbox',
-            value: car.specifications.gearbox,
+            value: car.gearType,
             icon: require('../assets/icons/gear-placeholder.png'),
         },
         {
             label: 'Price',
-            value: `${car.specifications.price} kr/day`,
+            value: `${car.pricePerDay} kr/day`,
             icon: require('../assets/icons/price-placeholder.png'),
         },
         {
             label: 'Registration number',
-            value: car.specifications.registrationNumber,
+            value: car.registrationNumber,
             icon: require('../assets/icons/reg-placeholder.png'),
         },
     ];

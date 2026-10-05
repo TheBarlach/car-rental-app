@@ -6,7 +6,7 @@ import type { RootStackParamList } from '../../../navigation/RootNavigator';
 import { colors } from '../../../theme/colors';
 import { spacing } from '../../../theme/spacing';
 import { typography } from '../../../theme/typography';
-import { getBookingById } from '../booking.types';
+import { getBookingById } from '../bookingService';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'BookingDetails'>;
 
@@ -25,69 +25,73 @@ export default function BookingDetailsScreen({ navigation, route }: Props) {
   }
 
   return (
-    <SafeAreaView style={styles.screen} edges={['bottom']}>
-      <ScrollView showsVerticalScrollIndicator={false}>
-        <View style={styles.hero}>
-          <Image
-            source={require('../../map/assets/car-placeholder.png')}
-            style={styles.vehicleImage}
-            resizeMode="contain"
-          />
-          <Pressable
-            accessibilityRole="button"
-            accessibilityLabel="Go back to bookings"
-            style={styles.heroBackButton}
-            onPress={() => navigation.goBack()}
-          >
-            <Ionicons name="arrow-back" size={22} color={colors.bookingDetailsText} />
-          </Pressable>
-          <View style={styles.photoCount}>
-            <Text style={styles.photoCountText}>1/2</Text>
-          </View>
-        </View>
-
-        <View style={styles.content}>
-          <View style={styles.vehicleHeader}>
-            <View style={styles.vehicleTitleBlock}>
-              <Text style={styles.vehicleName}>{booking.vehicleName}</Text>
-              <Text style={styles.registrationLabel}>Registration number</Text>
+    <SafeAreaView style={styles.screen}>
+      <View style={styles.body}>
+        <ScrollView showsVerticalScrollIndicator={false}>
+          <View style={styles.hero}>
+            <Image
+              source={require('../../map/assets/car-placeholder.png')}
+              style={styles.vehicleImage}
+              resizeMode="contain"
+            />
+            <View style={styles.photoCount}>
+              <Text style={styles.photoCountText}>1/2</Text>
             </View>
-            <Text style={styles.registrationNumber}>{booking.registrationNumber}</Text>
           </View>
 
-          <View style={styles.totalRow}>
-            <Text style={styles.totalLabel}>Total (DKK)</Text>
-            <Text style={styles.totalValue}>{booking.total} kr</Text>
+          <View style={styles.content}>
+            <View style={styles.vehicleHeader}>
+              <View style={styles.vehicleTitleBlock}>
+                <Text style={styles.vehicleName}>{booking.vehicleName}</Text>
+                <Text style={styles.registrationLabel}>Registration number</Text>
+              </View>
+              <Text style={styles.registrationNumber}>{booking.registrationNumber}</Text>
+            </View>
+
+            <View style={styles.totalRow}>
+              <Text style={styles.totalLabel}>Total (DKK)</Text>
+              <Text style={styles.totalValue}>{booking.total} kr</Text>
+            </View>
+
+            <Text style={styles.statusLine}>
+              Status: <Text style={{ color: booking.statusColor }}>{booking.status}</Text>
+            </Text>
+
+            <View style={styles.specRow}>
+              <SpecTile icon="people-outline" label={booking.seats} />
+              <SpecTile icon="settings-outline" label={booking.transmission} />
+              <SpecTile icon="water-outline" label={booking.fuel} />
+              <SpecTile icon="car-outline" label={booking.assistance} />
+            </View>
+
+            <Text style={styles.sectionTitle}>About this car</Text>
+            <Text style={styles.description}>{booking.description}</Text>
+
+            <Text style={styles.sectionTitle}>Rental Period</Text>
+            <View style={styles.dateRow}>
+              <DateField label="Pick-up" date="01 may 2026" />
+              <DateField label="Return" date="02 may 2026" />
+            </View>
+
+            <Text style={styles.sectionTitle}>Insurance</Text>
+            <Text style={styles.insuranceLabel}>Full cover</Text>
+
+            <View style={styles.updatesPanel}>
+              <Text style={styles.updatesTitle}>Updates</Text>
+            </View>
           </View>
+        </ScrollView>
 
-          <Text style={styles.statusLine}>
-            Status: <Text style={{ color: booking.statusColor }}>{booking.status}</Text>
-          </Text>
-
-          <View style={styles.specRow}>
-            <SpecTile icon="people-outline" label={booking.seats} />
-            <SpecTile icon="settings-outline" label={booking.transmission} />
-            <SpecTile icon="water-outline" label={booking.fuel} />
-            <SpecTile icon="car-outline" label={booking.assistance} />
-          </View>
-
-          <Text style={styles.sectionTitle}>About this car</Text>
-          <Text style={styles.description}>{booking.description}</Text>
-
-          <Text style={styles.sectionTitle}>Rental Period</Text>
-          <View style={styles.dateRow}>
-            <DateField label="Pick-up" date="01 may 2026" />
-            <DateField label="Return" date="02 may 2026" />
-          </View>
-
-          <Text style={styles.sectionTitle}>Insurance</Text>
-          <Text style={styles.insuranceLabel}>Full cover</Text>
-
-          <View style={styles.updatesPanel}>
-            <Text style={styles.updatesTitle}>Updates</Text>
-          </View>
-        </View>
-      </ScrollView>
+        {/* Kept outside the ScrollView so the back button stays in place while scrolling. */}
+        <Pressable
+          accessibilityRole="button"
+          accessibilityLabel="Go back to bookings"
+          style={styles.heroBackButton}
+          onPress={() => navigation.goBack()}
+        >
+          <Ionicons name="arrow-back" size={22} color={colors.bookingDetailsText} />
+        </Pressable>
+      </View>
     </SafeAreaView>
   );
 }
@@ -130,6 +134,9 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: '800',
     marginHorizontal: 16,
+  },
+  body: {
+    flex: 1,
   },
   hero: {
     alignItems: 'center',

@@ -5,7 +5,7 @@ import {
   screen,
 } from '@testing-library/react-native';
 
-import SettingsScreen from '../src/features/settings/screens/SettingsScreen';
+import SettingsScreen from '../screens/SettingsScreen';
 
 describe('SettingsScreen', () => {
   const mockNavigate = jest.fn();
@@ -97,7 +97,7 @@ describe('SettingsScreen', () => {
 
     await fireEvent.press(screen.getByText('My Booking'));
 
-    expect(mockNavigate).toHaveBeenCalledWith('MyBooking');
+    expect(mockNavigate).toHaveBeenCalledWith('Bookings');
   });
 
   it('renders the notification switch', async () => {
